@@ -1,0 +1,567 @@
+.toast{
+  display: none;
+  min-width: 20vw
+}
+.toast.show {
+    display: block;
+    opacity: 1;
+    position: fixed;
+    z-index: 99999999;
+    margin: 20px;
+    right: 0;
+    top: 3.5rem;
+}
+.swal2-container{
+    z-index: 99999999;
+}
+#preloader2 {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 9999;
+  overflow: hidden;
+  background: #ffffff82;
+}
+
+#preloader2:before {
+  content: "";
+  position: fixed;
+  top: calc(50% - 30px);
+  left: calc(50% - 30px);
+  border: 6px solid #1977cc;
+  border-top-color: #d1e6f9;
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  -webkit-animation: animate-preloader 1s linear infinite;
+  animation: animate-preloader 1s linear infinite;
+}
+@-webkit-keyframes animate-preloader {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes animate-preloader {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+.truncate {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    font-size: smaller;
+    color: #000000cf;
+    font-style: italic;
+}
+ .modal-dialog.large {
+    width: 80% !important;
+    max-width: unset;
+  }
+  .modal-dialog.mid-large {
+    width: 50% !important;
+    max-width: unset;
+  }
+  #viewer_modal .btn-close {
+    position: absolute;
+    z-index: 999999;
+    /*right: -4.5em;*/
+    background: unset;
+    color: white;
+    border: unset;
+    font-size: 27px;
+    top: 0;
+}
+#viewer_modal .modal-dialog {
+        width: 80%;
+    max-width: unset;
+    height: calc(90%);
+    max-height: unset;
+}
+  #viewer_modal .modal-content {
+       background: black;
+    border: unset;
+    height: calc(100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  #viewer_modal img,#viewer_modal video{
+    max-height: calc(100%);
+    max-width: calc(100%);
+  }
+
+
+
+                                            /* ========================== */
+                                        /*        CANDIDATER  */
+                                        /* ========================== */
+
+    /* ========================== */
+/*        INDICATEUR ÉTAPES   */
+/* ========================== */
+.steps-indicator {
+    position: relative;
+    margin-bottom: 30px;
+}
+
+.steps-indicator .progress {
+    height: 4px;
+    position: absolute;
+    top: 20px;
+    left: 0;
+    right: 0;
+    background-color: #e0e0e0;
+    z-index: 1;
+}
+
+.steps-indicator .progress-bar {
+    background-color: rgb(7, 167, 18);
+    width: 0%; /* Assurez-vous qu'il commence à 0% */
+    transition: width 0.5s ease; /* Transition fluide */
+}
+
+.steps-container {
+    display: flex;
+    justify-content: space-between;
+    position: relative;
+    z-index: 2;
+}
+
+.step-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    cursor: pointer;
+}
+
+.step-number {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: #e0e0e0;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 10px;
+    transition: all 0.3s ease;
+}
+
+.step-label {
+    text-align: center;
+    font-size: 0.8rem;
+    color: #6c757d;
+    transition: color 0.3s ease;
+}
+
+.step-item.active .step-number {
+    background-color: rgb(7, 167, 18); /* Couleur verte */
+    color: white;
+}
+
+.step-item.active .step-label {
+    color: rgb(7, 167, 18);
+    font-weight: bold;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .steps-container {
+        flex-direction: column;
+    }
+
+    .steps-indicator .progress {
+        display: none;
+    }
+
+    .step-item {
+        flex-direction: row;
+        align-items: center;
+        margin-bottom: 15px;
+    }
+
+    .step-number {
+        margin-right: 15px;
+        margin-bottom: 0;
+    }
+
+    .step-label {
+        text-align: left;
+    }
+}
+
+/* ========================== */
+/*       TABLE GLOW EFFECT   */
+/* ========================== */
+.table-glow {
+    box-shadow: 0 0 15px #059652;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+}
+
+.table-glow th,
+.table-glow td {
+    padding: 10px;
+    text-align: left;
+}
+
+.table-glow th {
+    background-color: #f8f9fa;
+    color: #495057;
+}
+
+.table-glow tbody tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+.table-glow tbody tr:hover {
+    background-color: #e9ecef;
+}
+
+/* ========================== */
+/*        MODAL STYLING      */
+/* ========================== */
+.modal-content {
+    box-shadow: 0 0 20px #059652;
+    border-radius: 10px;
+    transition: all 0.3s ease-in-out;
+    animation: glowEffect 1.5s infinite alternate; /* Animation lumineuse */
+}
+
+.modal-header {
+    background: linear-gradient(135deg, #059652, #059652);
+    color: white;
+    box-shadow: 0 0 10px #059652;
+}
+
+.modal-footer {
+    background-color: #f8f9fa;
+    box-shadow: 0 0 10px #059652;
+}
+
+button.close {
+    color: white;
+    font-size: 24px;
+}
+
+/* ========================== */
+/*       BOUTON PDF          */
+/* ========================== */
+#downloadPdf {
+    background: linear-gradient(45deg, #dc3545, #ff073a);
+    border: none;
+    color: white;
+    transition: 0.3s;
+}
+
+#downloadPdf:hover {
+    box-shadow: 0 0 15px rgba(255, 7, 58, 0.8);
+    transform: scale(1.05);
+}
+
+/* ========================== */
+/*        ANIMATION MODAL    */
+/* ========================== */
+@keyframes glowEffect {
+    0% {
+        box-shadow: 0 0 5px #059652;
+    }
+    50% {
+        box-shadow: 0 0 20px #059652;
+    }
+    100% {
+        box-shadow: 0 0 5px #059652;
+    }
+}
+
+/* ========================== */
+/*    TOAST FADE ANIMATION   */
+/* ========================== */
+.toast {
+    transition: opacity 0.5s ease-out;
+}
+
+.toast.fade {
+    opacity: 0;
+}
+
+/* ========================== */
+/*    TABLE FIXED WIDTH      */
+/* ========================== */
+.table-fixed {
+    table-layout: fixed;
+    width: 100%;
+}
+
+.table-fixed th, 
+.table-fixed td {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* Largeur spécifique des colonnes */
+.w-10 { width: 10%; }
+.w-20 { width: 20%; }
+.w-30 { width: 30%; }
+.w-40 { width: 40%; }
+
+/* ========================== */
+/*    SELECT2 FIX TEXTE NOIR  */
+/* ========================== */
+.select2-container--default .select2-selection--multiple .select2-selection__choice {
+    color: black !important;
+}
+
+
+
+                                        /* ========================== */
+                                        /*        LISTECANDIDAT  */
+                                        /* ========================== */
+
+                                        /* Styles pour le modal */
+.modal-xl {
+    max-width: 1200px;
+}
+
+.modal-body {
+    padding: 1.5rem;
+    background-color: #f8f9fa;
+}
+
+.card {
+    border: none;
+    border-radius: 0.5rem;
+}
+
+.card-header {
+    border-bottom: 1px solid rgba(0,0,0,.125);
+    padding: 1rem;
+}
+
+.info-group {
+    margin-bottom: 0;
+}
+
+.info-group label {
+    font-size: 0.875rem;
+    margin-bottom: 0.25rem;
+}
+
+.table th {
+    font-weight: 600;
+    font-size: 0.875rem;
+}
+
+.observation-list .card {
+    margin-bottom: 0.75rem;
+}
+
+.observation-list .card:last-child {
+    margin-bottom: 0;
+}
+
+.badge-primary {
+    font-size: 1rem;
+    padding: 0.5rem 0.75rem;
+}
+
+/* Animation pour le hover des lignes du tableau */
+.table-hover tbody tr:hover {
+    background-color: rgba(0,123,255,.075);
+    transition: background-color 0.2s ease;
+}
+
+/* Style pour le select de validation */
+#validationStatus {
+    border-radius: 0.25rem;
+    border: 1px solid #ced4da;
+}
+
+#validationStatus option {
+    padding: 0.5rem;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .modal-xl {
+        margin: 0.5rem;
+    }
+    
+    .card {
+        margin-bottom: 1rem;
+    }
+    
+    .info-group {
+        margin-bottom: 1rem;
+    }
+}
+
+
+.card-tools a.active {
+        background-color: #007bff;
+        color: white;
+    }
+    .icon-small {
+        font-size: 5px !important; /* Force la taille des icônes */
+    }
+
+    .table-glow {
+box-shadow: 0 0 15px #059652;
+border-radius: 10px;
+border: 1px solid #ccc;
+}
+
+.table-glow th,
+.table-glow td {
+padding: 10px;
+text-align: left;
+}
+
+.table-glow th {
+background-color: #f8f9fa;
+color: #495057;
+}
+
+.table-glow tbody tr:nth-child(even) {
+background-color: #f2f2f2;
+}
+
+.table-glow tbody tr:hover {
+background-color: #e9ecef;
+}
+
+.modal-content {
+box-shadow: 0 0 20px #059652; /* Effet lumineux bleu */
+border-radius: 10px;
+transition: all 0.3s ease-in-out;
+}
+
+.modal-header {
+background: linear-gradient(135deg, #059652, #059652); /* Dégradé lumineux */
+color: white;
+box-shadow: 0 0 10px #059652;
+}
+
+.modal-footer {
+background-color: #f8f9fa;
+box-shadow: 0 0 10px #059652;
+}
+
+#downloadPdf {
+background: linear-gradient(45deg, #dc3545, #ff073a);
+border: none;
+color: white;
+transition: 0.3s;
+}
+
+#downloadPdf:hover {
+box-shadow: 0 0 15px rgba(255, 7, 58, 0.8);
+transform: scale(1.05);
+}
+
+button.close {
+color: white;
+font-size: 24px;
+}
+
+@keyframes glowEffect {
+0% {
+    box-shadow: 0 0 5px #059652;
+}
+50% {
+    box-shadow: 0 0 20px #059652;
+}
+100% {
+    box-shadow: 0 0 5px #059652;
+}
+}
+
+.modal-content {
+animation: glowEffect 1.5s infinite alternate;
+}
+
+/* Animation de disparition du toast */
+.toast {
+transition: opacity 0.5s ease-out;
+}
+
+/* Lorsque le toast disparaît */
+.toast.fade {
+opacity: 0;
+}
+
+
+.rating {
+        display: inline-block;
+        font-size: 1.5rem;
+        color: #ddd;
+        cursor: pointer;
+    }
+
+    .rating span {
+        margin: 0 3px;
+    }
+
+    .rating span:hover,
+    .rating span.selected {
+        color: gold;
+    }
+
+    .score {
+        font-weight: bold;
+        font-size: 1.2rem;
+        color: #333;
+    }
+
+    .progress-bar {
+        background-color: #28a745;
+    }
+
+    .modal-header {
+        border-bottom: 2px solid #ddd;
+    }
+
+    .modal-footer {
+        border-top: 2px solid #ddd;
+    }
+
+    .pagination .page-link {
+    font-size: 0.8rem; /* Réduit la taille du texte */
+    padding: 5px 8px; /* Réduit l'espacement */
+}
+
+.pagination .page-item .page-link svg {
+    width: 12px; /* Ajuste la taille des flèches */
+    height: 12px;
+}
+
+
+.table-fixed {
+    table-layout: fixed;
+    width: 100%;
+}
+
+.table-fixed th, .table-fixed td {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.w-10 { width: 10%; }
+.w-20 { width: 20%; }
+.w-30 { width: 30%; }
+.w-40 { width: 40%; }
+
