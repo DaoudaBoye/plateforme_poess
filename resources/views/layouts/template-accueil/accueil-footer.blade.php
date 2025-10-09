@@ -24,8 +24,11 @@
           <li><a href="https://www.microfinance-ess.gouv.sn/">MMESS</a></li>
           <li><a href="https://fimf.sn/">FIMF</a></li>
           <li><a href="https://www.plasepri.sn/">PLASEPRI</a></li>
-          <li><a href="https://promise.sec.gouv.sn/">PROMISE</a></li>
+          <li><a href="https://promise.sec.gouv.sn/">FDMI</a></li>
           <li><a href="https://fonamif.sn/">FONAMIF</a></li>
+          <li><a href="">PROGRESS</a></li>
+          <li><a href="">FAESS</a></li>
+          <li><a href="">CRD</a></li>
         </ul>
       </div>
 

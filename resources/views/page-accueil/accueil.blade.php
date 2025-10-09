@@ -12,7 +12,7 @@
     {{-- ========================================
              SECTION ARTICLES & ACTUALITÉS
         ======================================== --}}
-    @include('page-accueil.partials.articles-section')
+    @include('page-accueil.partials.contents-section')
 
     {{-- ========================================
              SECTION CONTACT

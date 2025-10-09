@@ -16,6 +16,16 @@ class AccueilController extends Controller
         return view('page-accueil.accueil');
     }
 
+     // La page/vue dashboard.blade.php
+    public function marketplace(){
+        return view('page-accueil.marketplace');
+    }
+
+         // La page/vue dashboard.blade.php
+    public function ProduitCoopérative(){
+        return view('page-accueil.Produits-Cooperative');
+    }
+
     // La page/vue dashboard.blade.php
     public function doc(){
         return view('page-accueil.docCandidature');

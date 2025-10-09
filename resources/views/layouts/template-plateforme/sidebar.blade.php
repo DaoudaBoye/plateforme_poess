@@ -7,6 +7,7 @@
 
     .brand-link {
         padding: 1.5rem;
+        background-color: #fff;
         display: flex;
         justify-content: center;
         align-items: center;
@@ -19,7 +20,7 @@
     }
 
     .brand-link img {
-        height: 50px;
+        height: 80px !important;
         filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
     }
 

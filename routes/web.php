@@ -20,6 +20,9 @@ Route::controller(AccueilController::class)->group(function () {
     Route::get('/apropos', 'home')->name('apropos');
     Route::get('/docCandidature', 'doc')->name('docCandidature');
     Route::get('/mediatheque', 'galerie')->name('mediatheque');
+    Route::get('/marketplace', 'marketplace')->name('marketplace');
+    Route::get('/Produits-Cooperative', 'ProduitCoopérative')->name('Produits - Coopérative');
+
 });
 
 Route::get('/download-guide', function() {

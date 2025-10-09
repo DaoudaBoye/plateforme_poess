@@ -15,6 +15,7 @@ class StructController extends Controller
         $user = Auth::user();
         
         return view('struct.dashboard', compact('user'));
+        
     }
     
     /**
