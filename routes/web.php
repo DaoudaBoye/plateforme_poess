@@ -105,10 +105,10 @@ Route::middleware('auth')->group(function () {
     |--------------------------------------------------------------------------
     */
     
-    Route::prefix('admin')->group(function () {
-        Route::get('/administrateur', [AdminController::class, 'index'])->name('administrateur');
-        Route::get('/listeUser', [AdminController::class, 'user'])->name('listeUser');
-        Route::get('/editUser', [AdminController::class, 'editer'])->name('editUser');
-        Route::get('/critereAdmin', [AdminController::class, 'critere'])->name('critereAdmin');
-    });
+    // Route::prefix('admin')->group(function () {
+    //     Route::get('/administrateur', [AdminController::class, 'index'])->name('administrateur');
+    //     Route::get('/listeUser', [AdminController::class, 'user'])->name('listeUser');
+    //     Route::get('/editUser', [AdminController::class, 'editer'])->name('editUser');
+    //     Route::get('/critereAdmin', [AdminController::class, 'critere'])->name('critereAdmin');
+    // });
 });

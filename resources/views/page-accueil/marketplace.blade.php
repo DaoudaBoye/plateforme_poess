@@ -3,7 +3,7 @@
 @section('title', 'Marketplace')
 
 @section('content')
-<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+{{-- <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet"> --}}
 
 <main class="main">
 
@@ -310,7 +310,7 @@
         </div>
         <div class="col-md-3 col-6">
           <div class="stat-item">
-            <div class="stat-number" id="totalCategories">12</div>
+            <div class="stat-number" id="totalCategories">6</div>
             <div class="stat-label">Catégories</div>
           </div>
         </div>
@@ -731,7 +731,7 @@
 <!-- ============================================================ -->
 <!-- JAVASCRIPT -->
 <!-- ============================================================ -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+{{-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script> --}}
 <script>
 document.addEventListener('DOMContentLoaded', function() {
   
@@ -910,7 +910,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const stats = [
       { id: 'totalCooperatives', target: 24 },
       { id: 'totalProducts', target: 156 },
-      { id: 'totalCategories', target: 12 },
+      { id: 'totalCategories', target: 6},
       { id: 'activeOrders', target: 89 }
     ];
     

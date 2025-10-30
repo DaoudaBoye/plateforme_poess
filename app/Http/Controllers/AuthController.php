@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use App\Models\User;
+use App\Models\Utilisateur;
 use App\Notifications\WelcomeUserNotification;
 use Illuminate\Support\Facades\Log; // Ajout de l'importation de Log
 use Illuminate\Support\Facades\DB; 
@@ -23,7 +23,7 @@ class AuthController extends Controller
     {
         $validated = $request->validate([
             'email' => 'required|email',
-            'password' => 'required|string|min:8',
+            'mot_de_passe' => 'required|string|min:8',
         ]);
     
         if (Auth::attempt($validated)) {
@@ -74,11 +74,10 @@ class AuthController extends Controller
     
 
             // Création de l'utilisateur
-            $user = User::create([
+            $user = Utilisateur::create([
                 'name' => $request->name,
                 'email' => $request->email,
-                'password' => $request->password,
-                'role' => 'structure', 
+                'mot_de_passe' => $request->password,
             ]);
     
             // Envoi de la notification
@@ -111,7 +110,7 @@ class AuthController extends Controller
         
         $request->validate([
             'email' => 'required|email|unique:users,email,' . Auth::id(),
-            'password' => 'nullable|string|min:8|confirmed',
+            'mot_de_passe' => 'nullable|string|min:8|confirmed',
         ]);
     
         try {
@@ -123,8 +122,8 @@ class AuthController extends Controller
             }
             
             $data = ['email' => $request->email];
-            if ($request->filled('password')) {
-                $data['password'] = $request->password;
+            if ($request->filled('mot_de_passe')) {
+                $data['mot_de_passe'] = $request->password;
             }
 
             if (!$user instanceof \App\Models\User) {

@@ -300,9 +300,9 @@
       <a href="#tous-articles" class="btn btn-primary btn-lg px-4 px-lg-5 py-3 me-2 mb-3">
         <i class="bi bi-newspaper me-2"></i>Tous les articles
       </a>
-      <a href="#rss-feed" class="btn btn-outline-primary btn-lg px-4 px-lg-5 py-3 mb-3">
+      {{-- <a href="#rss-feed" class="btn btn-outline-primary btn-lg px-4 px-lg-5 py-3 mb-3">
         <i class="bi bi-rss-fill me-2"></i>Flux RSS
-      </a>
+      </a> --}}
     </div>
     
   </div>
@@ -555,24 +555,24 @@
                       <small class="text-muted">Satisfaction</small>
                     </div>
                   </div>
-                  <div class="col-6 col-md-3">
+                  {{-- <div class="col-6 col-md-3">
                     <div class="text-center p-3 bg-light rounded">
                       <div class="fw-bold text-primary fs-4">5.2M</div>
                       <small class="text-muted">CA (FCFA)</small>
                     </div>
-                  </div>
+                  </div> --}}
                   <div class="col-6 col-md-3">
                     <div class="text-center p-3 bg-light rounded">
                       <div class="fw-bold text-warning fs-4">500+</div>
                       <small class="text-muted">Emplois</small>
                     </div>
                   </div>
-                  <div class="col-6 col-md-3">
+                  {{-- <div class="col-6 col-md-3">
                     <div class="text-center p-3 bg-light rounded">
                       <div class="fw-bold text-info fs-4">A+</div>
                       <small class="text-muted">Note</small>
                     </div>
-                  </div>
+                  </div> --}}
                 </div>
                 <div class="d-flex gap-2 flex-wrap">
                   <a href="#cooperative-1" class="btn btn-primary" aria-label="Voir profil">
@@ -624,7 +624,7 @@
               Spécialisée en microcrédit. Taux de remboursement de 99.5% et impact social 
               majeur dans 8 régions.
             </p>
-            <div class="row g-2 mb-3">
+            {{-- <div class="row g-2 mb-3">
               <div class="col-4">
                 <div class="text-center p-2 bg-light rounded">
                   <div class="fw-bold text-success small">99.5%</div>
@@ -643,7 +643,7 @@
                   <small class="text-muted" style="font-size: 0.7rem;">Note</small>
                 </div>
               </div>
-            </div>
+            </div> --}}
             <div class="d-flex align-items-center justify-content-between mt-auto">
               <small class="text-muted"><i class="bi bi-calendar3 me-1"></i>Depuis 2012</small>
               <i class="bi bi-arrow-right text-primary fs-5" aria-hidden="true"></i>
@@ -684,7 +684,7 @@
               Pionnière en solutions digitales pour l'inclusion financière. 
               Plateforme utilisée par 50,000+ personnes.
             </p>
-            <div class="row g-2 mb-3">
+            {{-- <div class="row g-2 mb-3">
               <div class="col-4">
                 <div class="text-center p-2 bg-light rounded">
                   <div class="fw-bold text-success small">50K</div>
@@ -703,7 +703,7 @@
                   <small class="text-muted" style="font-size: 0.7rem;">Note</small>
                 </div>
               </div>
-            </div>
+            </div> --}}
             <div class="d-flex align-items-center justify-content-between mt-auto">
               <small class="text-muted"><i class="bi bi-calendar3 me-1"></i>Depuis 2015</small>
               <i class="bi bi-arrow-right text-primary fs-5" aria-hidden="true"></i>
@@ -744,7 +744,7 @@
               Leader en pêche durable et transformation halieutique. 
               Export vers 12 pays, certification bio.
             </p>
-            <div class="row g-2 mb-3">
+            {{-- <div class="row g-2 mb-3">
               <div class="col-4">
                 <div class="text-center p-2 bg-light rounded">
                   <div class="fw-bold text-success small">Bio</div>
@@ -763,7 +763,7 @@
                   <small class="text-muted" style="font-size: 0.7rem;">Note</small>
                 </div>
               </div>
-            </div>
+            </div> --}}
             <div class="d-flex align-items-center justify-content-between mt-auto">
               <small class="text-muted"><i class="bi bi-calendar3 me-1"></i>Depuis 2008</small>
               <i class="bi bi-arrow-right text-primary fs-5" aria-hidden="true"></i>
@@ -804,7 +804,7 @@
               Valorisation de l'artisanat local et autonomisation des femmes. 
               Présence dans 15 marchés internationaux.
             </p>
-            <div class="row g-2 mb-3">
+            {{-- <div class="row g-2 mb-3">
               <div class="col-4">
                 <div class="text-center p-2 bg-light rounded">
                   <div class="fw-bold text-success small">95%</div>
@@ -823,7 +823,7 @@
                   <small class="text-muted" style="font-size: 0.7rem;">Note</small>
                 </div>
               </div>
-            </div>
+            </div> --}}
             <div class="d-flex align-items-center justify-content-between mt-auto">
               <small class="text-muted"><i class="bi bi-calendar3 me-1"></i>Depuis 2013</small>
               <i class="bi bi-arrow-right text-primary fs-5" aria-hidden="true"></i>
@@ -864,7 +864,7 @@
               Centre de formation professionnelle et alphabétisation. 
               5,000+ personnes formées, 87% d'insertion.
             </p>
-            <div class="row g-2 mb-3">
+            {{-- <div class="row g-2 mb-3">
               <div class="col-4">
                 <div class="text-center p-2 bg-light rounded">
                   <div class="fw-bold text-success small">5K</div>
@@ -883,7 +883,7 @@
                   <small class="text-muted" style="font-size: 0.7rem;">Note</small>
                 </div>
               </div>
-            </div>
+            </div> --}}
             <div class="d-flex align-items-center justify-content-between mt-auto">
               <small class="text-muted"><i class="bi bi-calendar3 me-1"></i>Depuis 2011</small>
               <i class="bi bi-arrow-right text-primary fs-5" aria-hidden="true"></i>
