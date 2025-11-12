@@ -225,7 +225,8 @@ h6 {
   color: var(--default-color);
   transition: all 0.5s;
   z-index: 997;
-  background-color: var(--background-color);
+  background-color: var(--background-color)
+  ;
 }
 
 .header .topbar {

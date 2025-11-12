@@ -40,7 +40,7 @@ return new class extends Migration
             $table->decimal('capital_social', 15, 2)->nullable();
             
             $table->foreignId('id_domaine')->nullable()->constrained('domaines', 'id_domaine')->onDelete('set null');
-            $table->foreignId('id_utilisateur')->nullable()->constrained('utilisateurs', 'id_utilisateur')->onDelete('set null');
+            $table->foreignId('id_user')->nullable()->constrained('users', 'id_user')->onDelete('set null');
             $table->foreignId('id_story')->nullable();
             $table->foreignId('id_type_struct')->nullable()->constrained('types_structure', 'id_type_struct')->onDelete('set null');
             $table->foreignId('id_commune')->nullable()->constrained('communes', 'id_commune')->onDelete('set null');

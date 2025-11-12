@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('affectations', function (Blueprint $table) {
             $table->id('id_affectation');
             $table->foreignId('id_structure')->constrained('structures_demandeurs', 'id_structure')->onDelete('cascade');
-            $table->foreignId('id_utilisateur')->constrained('utilisateurs', 'id_utilisateur')->onDelete('cascade');
+            $table->foreignId('id_user')->constrained('users', 'id_user')->onDelete('cascade');
             $table->timestamps();
         });
     }

@@ -20,8 +20,8 @@ class Profil extends Model
     ];
 
     // Relations
-    public function utilisateurs()
+    public function users()
     {
-        return $this->hasMany(Utilisateur::class, 'id_profil', 'id_profil');
+        return $this->hasMany(User::class, 'id_profil', 'id_profil');
     }
 }

@@ -28,9 +28,9 @@ class Agrement extends Model
     ];
 
     // Relations
-    public function utilisateur()
+    public function user()
     {
-        return $this->belongsTo(Utilisateur::class, 'id_utilisateur', 'id_utilisateur');
+        return $this->belongsTo(User::class, 'id_user', 'id_user');
     }
 
     public function structure()

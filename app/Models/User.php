@@ -1,67 +1,75 @@
 <?php
 
-namespace App\Models;
+namespace App\Models;   
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Database\Eloquent\Model;
 
 class User extends Authenticatable
 {
     use HasFactory, Notifiable;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
-     */
+    protected $table = 'users';
+    protected $primaryKey = 'id_user';
+
     protected $fillable = [
-        'name',
-        'email',
         'password',
-        'role',
+        'email',
+        'id_profil',
     ];
 
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var array<int, string>
-     */
     protected $hidden = [
         'password',
         'remember_token',
     ];
 
-    /**
-     * The attributes that should be cast.
-     *
-     * @var array<string, string>
-     */
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
 
     /**
-     * Default values for model attributes.
-     *
-     * @var array<string, mixed>
+     * Redéfinition du mot de passe pour l’authentification.
      */
-    protected $attributes = [
-        'role' => 'structure', // Définir le rôle par défaut
-    ];
+    public function getAuthPassword()
+    {
+        return $this->password;
+    }
 
     /**
-     * Set the user's password.
-     * Automatically hashes the password before saving it.
-     *
-     * @param string $value
-     * @return void
+     * Mutateur : hash automatiquement le mot de passe avant enregistrement.
      */
     public function setPasswordAttribute($value)
     {
         $this->attributes['password'] = bcrypt($value);
     }
 
-    
+    // ================================
+    //          RELATIONS
+    // ================================
+
+    public function profil()
+    {
+        return $this->belongsTo(Profil::class, 'id_profil', 'id_profil');
+    }
+
+    public function structures()
+    {
+        return $this->hasMany(StructureDemandeur::class, 'id_user', 'id_user');
+    }
+
+    public function agrements()
+    {
+        return $this->hasMany(Agrement::class, 'id_user', 'id_user');
+    }
+
+    public function affectations()
+    {
+        return $this->hasMany(Affectation::class, 'id_user', 'id_user');
+    }
+
+    public function historiques()
+    {
+        return $this->hasMany(HistoriqueValidation::class, 'id_user', 'id_user');
+    }
 }

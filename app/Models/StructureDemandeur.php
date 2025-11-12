@@ -63,9 +63,9 @@ class StructureDemandeur extends Model
         return $this->belongsTo(Domaine::class, 'id_domaine', 'id_domaine');
     }
 
-    public function utilisateur()
+    public function user()
     {
-        return $this->belongsTo(Utilisateur::class, 'id_utilisateur', 'id_utilisateur');
+        return $this->belongsTo(User::class, 'id_user', 'id_user');
     }
 
     public function typeStructure()

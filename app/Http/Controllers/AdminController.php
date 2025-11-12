@@ -6,7 +6,6 @@ use Illuminate\Http\Request;
 
 class AdminController extends Controller
 {
-          // La page/vue dashboard.blade.php
    public function index(){
     return view('admin.administrateur');
     }

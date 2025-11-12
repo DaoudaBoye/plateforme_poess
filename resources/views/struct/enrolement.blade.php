@@ -1,10 +1,6 @@
 @extends('layouts.template-plateforme.template')
 
-@section('title', 'Dashboard')
-
-@push('styles')
-
-@endpush
+@section('title', 'Enrôlement')
 
 @section('content')
 
@@ -13,12 +9,12 @@
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1 class="m-0">Tableau de bord</h1>
+                <h1 class="m-0">Formulaire d'enrôlement</h1>
             </div>
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
-                    <li class="breadcrumb-item"><a href="#">Accueil</a></li>
-                    <li class="breadcrumb-item active">Dashboard</li>
+                    <li class="breadcrumb-item"><a href="{{ route('struct.dashboard') }}">Accueil</a></li>
+                    <li class="breadcrumb-item active">Enrôlement</li>
                 </ol>
             </div>
         </div>
@@ -28,11 +24,7 @@
 
 <!-- Main content -->
 <div class="container-fluid">
-
-
-    
- 
+    <!-- Ton contenu ici -->
 </div>
 
 @endsection
-

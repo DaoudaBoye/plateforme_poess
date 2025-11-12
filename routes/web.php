@@ -85,6 +85,7 @@ Route::middleware('auth')->group(function () {
     
     Route::prefix('struct')->middleware('auth')->group(function () {
         Route::get('/dashboard', [StructController::class, 'index'])->name('struct.dashboard');
+        Route::get('/enrolement', [StructController::class, 'enrolement'])->name('struct.enrolement');
         Route::get('/candidater', [StructController::class, 'showLocalite'])->name('struct.candidater');
     });
     

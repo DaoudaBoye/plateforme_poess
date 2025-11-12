@@ -16,13 +16,13 @@ return new class extends Migration
             $table->string('reference_agrement')->nullable();
             $table->string('statut')->nullable();
             
-            $table->unsignedBigInteger('id_utilisateur');
+            $table->unsignedBigInteger('id_user');
             $table->unsignedBigInteger('id_structure');
 
             // Clés étrangères
-            $table->foreign('id_utilisateur')
-                  ->references('id_utilisateur')
-                  ->on('utilisateurs')
+            $table->foreign('id_user')
+                  ->references('id_user')
+                  ->on('users')
                   ->onDelete('cascade');
 
             $table->foreign('id_structure')

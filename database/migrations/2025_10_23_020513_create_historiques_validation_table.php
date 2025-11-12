@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('etat_validation')->nullable();
             $table->date('date_validation')->nullable();
             $table->text('commentaire')->nullable();
-            $table->foreignId('id_utilisateur')->nullable()->constrained('utilisateurs', 'id_utilisateur')->onDelete('set null');
+            $table->foreignId('id_user')->nullable()->constrained('users', 'id_user')->onDelete('set null');
             $table->timestamps();
         });
     }

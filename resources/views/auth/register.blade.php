@@ -14,28 +14,50 @@
       <div class="modal-body">
         <form id="registerForm" action="{{ route('register') }}">
           @csrf
-          <!-- Afficher le message d'erreur -->
-        
+          
           <div class="mb-3">
-            <label for="name" class="form-label">Nom complet</label>
-            <input type="text" class="form-control" id="name" name="name" placeholder="Votre nom complet" required>
+            <div class="form-group">
+              <label>Type structure<span class="required"></span></label>
+                <select class="form-control" name="nom-structure" required>
+                  <option value="">Sélectionner...</option>
+                  <option value="association">SCOOP</option>
+                  <option value="ong">AER</option>
+                  <option value="entreprise">ES</option>
+                </select>
+            </div>
           </div>
+
           <div class="mb-3">
-            <label for="email" class="form-label">Adresse email</label>
-            <input type="email" class="form-control" id="email" name="email" placeholder="Votre email" required>
+            <label for="regEmail" class="form-label">Adresse email</label>
+            <input type="email" class="form-control" id="regEmail" name="email" placeholder="Votre email" required>
           </div>
+
           <div class="mb-3">
-            <label for="password" class="form-label">Mot de passe</label>
-            <input type="password" class="form-control" id="password" name="password" placeholder="Choisissez un mot de passe" required>
+            <label for="regPassword" class="form-label">Mot de passe</label>
+            <div class="input-group">
+              <input type="password" class="form-control" id="regPassword" name="password" placeholder="Choisissez un mot de passe" required>
+              <button type="button" class="btn btn-outline-secondary" id="toggleRegPassword" tabindex="-1" aria-label="Afficher/Masquer le mot de passe">
+                <i class="fas fa-eye" id="toggleRegPasswordIcon"></i>
+              </button>
+            </div>
           </div>
+
           <div class="mb-3">
-            <label for="password_confirmation" class="form-label">Confirmez le mot de passe</label>
-            <input type="password" class="form-control" id="password_confirmation" name="password_confirmation" placeholder="Confirmez votre mot de passe" required>
+            <label for="regPasswordConfirm" class="form-label">Confirmez le mot de passe</label>
+            <div class="input-group">
+              <input type="password" class="form-control" id="regPasswordConfirm" name="password_confirmation" placeholder="Confirmez votre mot de passe" required>
+              <button type="button" class="btn btn-outline-secondary" id="toggleRegPasswordConfirm" tabindex="-1" aria-label="Afficher/Masquer la confirmation">
+                <i class="fas fa-eye" id="toggleRegPasswordConfirmIcon"></i>
+              </button>
+            </div>
           </div>
+
           <div class="d-grid gap-2">
             <button type="submit" class="btn btn-success" id="submitBtn">Créer un compte</button>
-            <div id="loadingSpinner" class="spinner-border text-primary" style="display: none;" role="status">
-              <span class="visually-hidden">Chargement...</span>
+            <div id="loadingSpinner" class="text-center" style="display: none;">
+              <div class="spinner-border text-success" role="status">
+                <span class="visually-hidden">Chargement...</span>
+              </div>
             </div>
           </div>
         </form>
@@ -85,73 +107,6 @@
   </div>
 </div>
 
-<!-- Inclusion de jQuery -->
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
-<!-- Votre script personnalisé -->
-<script>
-$('#registerForm').on('submit', function (e) {
-    e.preventDefault(); // Empêche la soumission classique du formulaire
-
-    $('#submitBtn').hide();
-    $('#loadingSpinner').show();
-    $('.text-danger, .invalid-feedback').remove();
-    $('.form-control').removeClass('is-invalid');
-
-    if ($('#password').val() !== $('#password_confirmation').val()) {
-        $('#password_confirmation').after('<div class="text-danger">Les mots de passe ne correspondent pas.</div>');
-        $('#submitBtn').show();
-        $('#loadingSpinner').hide();
-        return;
-    }
-
-    $.ajax({
-        url: '{{ route("register") }}',
-        method: 'POST',
-        data: $(this).serialize(),
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
-        },
-        success: function (response) {
-            if (response.status == "success") {
-                $('#registerModal').modal('hide');
-                $('#confirmationModal').modal('show');
-                $('#confirmationMessage').text(response.message);
-                $('#registerForm')[0].reset();
-            }
-        },
-        error: function (xhr) {
-            if (xhr.status === 422) {
-                let errors = xhr.responseJSON.errors;
-                for (let field in errors) {
-                    let input = $([name="${field}"]);
-                    input.addClass('is-invalid');
-                    input.after(`<div class="invalid-feedback">${errors[field][0]}</div>`);
-                  }
-            } else {
-                alert(xhr.responseJSON.message || 'Erreur interne, veuillez réessayer.');
-            }
-            $('#submitBtn').show();
-            $('#loadingSpinner').hide();
-        }
-    });
-});
-</script>
-<script>
-  // Lors de la fermeture du modal d'inscription, on vérifie si le modal de connexion est aussi fermé
-  $('#registerModal').on('hidden.bs.modal', function () {
-    if (!$('#loginModal').hasClass('show')) {
-      // Si le modal de connexion est également fermé, on supprime la couche sombre
-      $('body').removeClass('modal-open');
-      $('.modal-backdrop').remove();
-    }
-  });
-
-  // Lors de l'ouverture du modal d'inscription, on ferme le modal de connexion sans supprimer la couche sombre
-  $('#registerModal').on('show.bs.modal', function () {
-    $('#loginModal').modal('hide'); // Ferme le modal de connexion
-  });
-</script>
 <!-- Styles CSS personnalisés -->
 <style>
   .bg-gradient {
@@ -172,5 +127,35 @@ $('#registerForm').on('submit', function (e) {
     background-color: #1e7e34 !important;
     transform: scale(1.05);
     transition: 0.3s;
+  }
+
+  /* Style pour les boutons toggle password */
+  .input-group .btn-outline-secondary {
+    border-color: #ced4da;
+    background-color: #fff;
+    transition: all 0.3s ease;
+  }
+
+  .input-group .btn-outline-secondary:hover {
+    background-color: #e9ecef;
+    border-color: #ced4da;
+  }
+
+  .input-group .btn-outline-secondary:focus {
+    box-shadow: none;
+    border-color: #ced4da;
+  }
+
+  .input-group .form-control {
+    border-right: none;
+  }
+
+  .input-group .form-control:focus {
+    border-color: #ced4da;
+    box-shadow: none;
+  }
+
+  .input-group .form-control:focus + .btn-outline-secondary {
+    border-color: #86b7fe;
   }
 </style>

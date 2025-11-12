@@ -17,6 +17,14 @@ class StructController extends Controller
         return view('struct.dashboard', compact('user'));
         
     }
+
+    public function enrolement(): View
+    {
+        $user = Auth::user();
+        
+        return view('struct.enrolement', compact('user'));
+        
+    }
     
     /**
      * Affiche la page de candidature
@@ -25,4 +33,5 @@ class StructController extends Controller
     {
         return view('struct.candidater');
     }
+    
 }

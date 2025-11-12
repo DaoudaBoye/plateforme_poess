@@ -25,7 +25,7 @@ class Authenticate
             }
             
             // Sinon, rediriger vers la page de connexion
-            return redirect()->route('accueil');
+            return redirect()->route('page-accueil.accueil')->with('showLoginModal', true);
         }
 
         return $next($request);

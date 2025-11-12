@@ -17,7 +17,7 @@ class Affectation extends Model
 
     protected $fillable = [
         'id_structure',
-        'id_utilisateur',
+        'id_user',
     ];
 
     // Relations
@@ -26,8 +26,8 @@ class Affectation extends Model
         return $this->belongsTo(StructureDemandeur::class, 'id_structure', 'id_structure');
     }
 
-    public function utilisateur()
+    public function user()
     {
-        return $this->belongsTo(Utilisateur::class, 'id_utilisateur', 'id_utilisateur');
+        return $this->belongsTo(User::class, 'id_user', 'id_user');
     }
 }

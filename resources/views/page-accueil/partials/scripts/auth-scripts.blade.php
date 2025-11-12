@@ -3,58 +3,170 @@
   // GESTION DES MODALS (Connexion et Inscription)
   // ============================================================
   
-  // Afficher le modal si la session est définie
-  @if(session('open_modal'))
-    document.addEventListener('DOMContentLoaded', function () {
+  document.addEventListener('DOMContentLoaded', function() {
+    // Afficher le modal de connexion si la session est définie
+    @if(session('open_modal'))
       const loginModal = new bootstrap.Modal(document.getElementById('loginModal'));
       loginModal.show();
+    @endif
+
+    // Gestion de la transition Login → Register
+    $('#registerModal').on('show.bs.modal', function () {
+      $('#loginModal').modal('hide');
     });
-  @endif
 
-  // Lors de la fermeture du modal de connexion, ne pas supprimer la couche sombre immédiatement
-  $('#loginModal').on('hidden.bs.modal', function () {
-    if (!$('#registerModal').hasClass('show')) {
-      $('body').removeClass('modal-open');
-      $('.modal-backdrop').remove();
-    }
-  });
+    // Gestion de la transition Register → Login
+    $('#loginModal').on('show.bs.modal', function () {
+      $('#registerModal').modal('hide');
+    });
 
-  // Lors de l'ouverture du modal d'inscription, on ferme le modal de connexion
-  $('#loginModal').on('hide.bs.modal', function () {
-    $('#registerModal').modal('show');
+    // Nettoyage du backdrop quand les deux modals sont fermés
+    $('#loginModal, #registerModal').on('hidden.bs.modal', function () {
+      if (!$('#loginModal').hasClass('show') && !$('#registerModal').hasClass('show')) {
+        $('body').removeClass('modal-open');
+        $('.modal-backdrop').remove();
+      }
+    });
   });
 
   
   // ============================================================
-  // GESTION DU FORMULAIRE DE CONNEXION
+  // TOGGLE VISIBILITÉ DES MOTS DE PASSE - CONNEXION
   // ============================================================
   
-  // Toggle visibilité du mot de passe
-  document.getElementById('togglePassword').addEventListener('click', function () {
+  document.addEventListener('DOMContentLoaded', function() {
+    const togglePassword = document.getElementById('togglePassword');
     const passwordField = document.getElementById('logPassword');
     const passwordIcon = document.getElementById('togglePasswordIcon');
-    const toggleButton = document.getElementById('togglePassword');
 
-    if (passwordField.type === 'password') {
-      passwordField.type = 'text';
-      passwordIcon.classList.remove('fa-eye');
-      passwordIcon.classList.add('fa-eye-slash');
-      toggleButton.setAttribute('aria-pressed', 'true');
-    } else {
-      passwordField.type = 'password';
-      passwordIcon.classList.remove('fa-eye-slash');
-      passwordIcon.classList.add('fa-eye');
-      toggleButton.setAttribute('aria-pressed', 'false');
+    if (togglePassword && passwordField && passwordIcon) {
+      togglePassword.addEventListener('click', function() {
+        if (passwordField.type === 'password') {
+          passwordField.type = 'text';
+          passwordIcon.classList.remove('fa-eye');
+          passwordIcon.classList.add('fa-eye-slash');
+          togglePassword.setAttribute('aria-pressed', 'true');
+        } else {
+          passwordField.type = 'password';
+          passwordIcon.classList.remove('fa-eye-slash');
+          passwordIcon.classList.add('fa-eye');
+          togglePassword.setAttribute('aria-pressed', 'false');
+        }
+      });
+    }
+
+    // Afficher le spinner lors de la soumission du formulaire de connexion
+    const loginForm = document.getElementById('loginForm');
+    if (loginForm) {
+      loginForm.addEventListener('submit', function() {
+        const submitButton = document.getElementById('logSubmitBtn');
+        const loadingCubes = document.getElementById('loadingCubes');
+        if (submitButton) submitButton.disabled = true;
+        if (loadingCubes) loadingCubes.style.display = 'block';
+      });
     }
   });
 
-  // Afficher les cubes de chargement lors de la soumission
-  document.getElementById('loginForm').addEventListener('submit', function(event) {
-    const submitButton = document.getElementById('logSubmitBtn');
-    const loadingCubes = document.getElementById('loadingCubes');
+  
+  // ============================================================
+  // TOGGLE VISIBILITÉ DES MOTS DE PASSE - INSCRIPTION
+  // ============================================================
+  
+  document.addEventListener('DOMContentLoaded', function() {
+    // Toggle pour le mot de passe
+    const toggleRegPassword = document.getElementById('toggleRegPassword');
+    const regPasswordField = document.getElementById('regPassword');
+    const regPasswordIcon = document.getElementById('toggleRegPasswordIcon');
 
-    submitButton.disabled = true;
-    loadingCubes.style.display = 'flex';
+    if (toggleRegPassword && regPasswordField && regPasswordIcon) {
+      toggleRegPassword.addEventListener('click', function() {
+        if (regPasswordField.type === 'password') {
+          regPasswordField.type = 'text';
+          regPasswordIcon.classList.remove('fa-eye');
+          regPasswordIcon.classList.add('fa-eye-slash');
+          toggleRegPassword.setAttribute('aria-pressed', 'true');
+        } else {
+          regPasswordField.type = 'password';
+          regPasswordIcon.classList.remove('fa-eye-slash');
+          regPasswordIcon.classList.add('fa-eye');
+          toggleRegPassword.setAttribute('aria-pressed', 'false');
+        }
+      });
+    }
+
+    // Toggle pour la confirmation du mot de passe
+    const toggleRegPasswordConfirm = document.getElementById('toggleRegPasswordConfirm');
+    const regPasswordConfirmField = document.getElementById('regPasswordConfirm');
+    const regPasswordConfirmIcon = document.getElementById('toggleRegPasswordConfirmIcon');
+
+    if (toggleRegPasswordConfirm && regPasswordConfirmField && regPasswordConfirmIcon) {
+      toggleRegPasswordConfirm.addEventListener('click', function() {
+        if (regPasswordConfirmField.type === 'password') {
+          regPasswordConfirmField.type = 'text';
+          regPasswordConfirmIcon.classList.remove('fa-eye');
+          regPasswordConfirmIcon.classList.add('fa-eye-slash');
+          toggleRegPasswordConfirm.setAttribute('aria-pressed', 'true');
+        } else {
+          regPasswordConfirmField.type = 'password';
+          regPasswordConfirmIcon.classList.remove('fa-eye-slash');
+          regPasswordConfirmIcon.classList.add('fa-eye');
+          toggleRegPasswordConfirm.setAttribute('aria-pressed', 'false');
+        }
+      });
+    }
+  });
+
+  
+  // ============================================================
+  // SOUMISSION DU FORMULAIRE D'INSCRIPTION (AJAX)
+  // ============================================================
+  
+  $(document).ready(function() {
+    $('#registerForm').on('submit', function (e) {
+      e.preventDefault();
+
+      $('#submitBtn').hide();
+      $('#loadingSpinner').show();
+      $('.text-danger, .invalid-feedback').remove();
+      $('.form-control').removeClass('is-invalid');
+
+      if ($('#regPassword').val() !== $('#regPasswordConfirm').val()) {
+        $('#regPasswordConfirm').after('<div class="text-danger small mt-1">Les mots de passe ne correspondent pas.</div>');
+        $('#submitBtn').show();
+        $('#loadingSpinner').hide();
+        return;
+      }
+
+      $.ajax({
+        url: '{{ route("register") }}',
+        method: 'POST',
+        data: $(this).serialize(),
+        headers: {
+          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+        },
+        success: function (response) {
+          if (response.status == "success") {
+            $('#registerModal').modal('hide');
+            $('#confirmationModal').modal('show');
+            $('#registerForm')[0].reset();
+          }
+        },
+        error: function (xhr) {
+          if (xhr.status === 422) {
+            let errors = xhr.responseJSON.errors;
+            for (let field in errors) {
+              let input = $(`[name="${field}"]`);
+              input.addClass('is-invalid');
+              input.after(`<div class="invalid-feedback">${errors[field][0]}</div>`);
+            }
+          } else {
+            alert(xhr.responseJSON.message || 'Erreur interne, veuillez réessayer.');
+          }
+          $('#submitBtn').show();
+          $('#loadingSpinner').hide();
+        }
+      });
+    });
   });
 
   
@@ -69,7 +181,6 @@
     btn.addEventListener('click', function() {
       const filter = this.getAttribute('data-filter');
       
-      // Mise à jour des boutons actifs
       filterButtons.forEach(b => {
         b.classList.remove('active');
         b.setAttribute('aria-pressed', 'false');
@@ -77,7 +188,6 @@
       this.classList.add('active');
       this.setAttribute('aria-pressed', 'true');
       
-      // Filtrage des articles
       articles.forEach(article => {
         const category = article.getAttribute('data-category');
         if (filter === 'all' || category === filter) {
@@ -95,13 +205,15 @@
   // GESTION DE LA NEWSLETTER
   // ============================================================
   
-  document.getElementById('newsletter-form').addEventListener('submit', function(e) {
-    e.preventDefault();
-    const email = this.querySelector('input[type="email"]').value;
-    
-    alert(`Merci de vous être abonné avec l'email : ${email}`);
-    this.reset();
-  });
+  const newsletterForm = document.getElementById('newsletter-form');
+  if (newsletterForm) {
+    newsletterForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+      const email = this.querySelector('input[type="email"]').value;
+      alert(`Merci de vous être abonné avec l'email : ${email}`);
+      this.reset();
+    });
+  }
 
   
   // ============================================================
@@ -136,10 +248,8 @@
   
   document.addEventListener('DOMContentLoaded', function() {
     
-    // Animation des nombres
     function animateNumbers() {
       const counters = document.querySelectorAll('.stat-number');
-      
       counters.forEach(counter => {
         const target = parseInt(counter.getAttribute('data-target'));
         const duration = 2000;
@@ -155,15 +265,12 @@
             counter.textContent = target.toLocaleString('fr-FR');
           }
         };
-        
         updateCounter();
       });
     }
 
-    // Animation des barres de progression
     function animateProgressBars() {
       const progressBars = document.querySelectorAll('.stat-progress .progress-bar');
-      
       progressBars.forEach(bar => {
         const progress = bar.getAttribute('data-progress');
         setTimeout(() => {
@@ -171,7 +278,6 @@
         }, 100);
       });
       
-      // Barres horizontales
       const horizontalBars = document.querySelectorAll('.progress-bar-fill');
       horizontalBars.forEach(bar => {
         const width = bar.getAttribute('data-width');
@@ -181,21 +287,18 @@
       });
     }
 
-    // Animation du graphique circulaire
     function animateCircularProgress() {
       const circularProgress = document.querySelector('.circular-progress');
       if (circularProgress) {
         const percentage = circularProgress.getAttribute('data-percentage');
         const circle = circularProgress.querySelector('.progress-circle');
         const offset = 502 - (502 * percentage) / 100;
-        
         setTimeout(() => {
           circle.style.strokeDashoffset = offset;
         }, 100);
       }
     }
 
-    // Observer pour les statistiques
     const statsObserver = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
@@ -214,7 +317,6 @@
       });
     }, { threshold: 0.1 });
 
-    // Observer tous les éléments fade-in-up
     document.querySelectorAll('.fade-in-up').forEach(el => {
       statsObserver.observe(el);
     });

@@ -1,16 +1,14 @@
 <?php
 
-// ========================================
-// MODEL 8 : Utilisateur.php
-// ========================================
-namespace App\Models;
+namespace App\Models;   
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
 
-class Utilisateur extends Model
+class Utilisateur extends Authenticatable
 {
-    use HasFactory;
+    use HasFactory, Notifiable;
 
     protected $table = 'utilisateurs';
     protected $primaryKey = 'id_utilisateur';
@@ -19,36 +17,35 @@ class Utilisateur extends Model
         'mot_de_passe',
         'email',
         'id_profil',
+        'role',
     ];
 
     protected $hidden = [
         'mot_de_passe',
         'remember_token',
-
     ];
 
-    /**
-     * The attributes that should be cast.
-     *
-     * @var array<string, string>
-     */
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
 
+    /**
+     * Get the password for the user.
+     * Override pour utiliser 'mot_de_passe' au lieu de 'password'
+     */
+    public function getAuthPassword()
+    {
+        return $this->mot_de_passe;
+    }
 
-      /**
+    /**
      * Set the user's password.
      * Automatically hashes the password before saving it.
-     *
-     * @param string $value
-     * @return void
      */
-    public function setPasswordAttribute($value)
+    public function setMotDePasseAttribute($value)
     {
         $this->attributes['mot_de_passe'] = bcrypt($value);
     }
-
 
     // Relations
     public function profil()
@@ -75,5 +72,5 @@ class Utilisateur extends Model
     {
         return $this->hasMany(HistoriqueValidation::class, 'id_utilisateur', 'id_utilisateur');
     }
-}
 
+}

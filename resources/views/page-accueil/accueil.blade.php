@@ -20,13 +20,9 @@
     @include('page-accueil.partials.contact-section')
 </main>
 
-
 {{-- Register Modal --}}
 @include('auth.register')
 @include('auth.login')
-
-{{-- Confirmation Modal --}}
-
 
 @endsection
 
@@ -42,5 +38,5 @@
          SCRIPTS
     ======================================== --}}
 @push('scripts')
-    @include('page-accueil.partials.scripts.auth-scripts')
+@include('page-accueil.partials.scripts.auth-scripts')
 @endpush
