@@ -1,15 +1,21 @@
+
+{{-- FORMULAIRE D'ENRÔLEMENT OPTIMISÉ --}}
 @extends('layouts.template-plateforme.template')
 
 @section('title', 'Enrôlement')
 
-@section('content')
+@push('styles')
+<link rel="stylesheet" href="{{ asset('assets/css/enrolement/form.css') }}">
 
+@endpush
+
+@section('content')
 <!-- Content Header -->
 <div class="content-header">
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1 class="m-0">Formulaire d'enrôlement</h1>
+                <h1 class="m-0">Enrôlement</h1>
             </div>
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
@@ -24,7 +30,10 @@
 
 <!-- Main content -->
 <div class="container-fluid">
-    <!-- Ton contenu ici -->
+        @include('struct.partials.section-form')
 </div>
-
 @endsection
+@push('scripts')
+<script src="{{ asset('assets/js/enrolement/form.js') }}" defer></script>
+@endpush
+

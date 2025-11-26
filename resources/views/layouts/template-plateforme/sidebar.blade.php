@@ -61,12 +61,12 @@
                                 <p>Créer utilisateur</p>
                             </a>
                         </li>
-                        <li class="nav-item">
+                        {{-- <li class="nav-item">
                             <a href="#" class="nav-link">
                                 <i class="fas fa-id-card nav-icon text-info" aria-hidden="true"></i>
                                 <p>Créer profil</p>
                             </a>
-                        </li>
+                        </li> --}}
                         <li class="nav-item">
                             <a href="#" class="nav-link">
                                 <i class="fas fa-list nav-icon" aria-hidden="true"></i>

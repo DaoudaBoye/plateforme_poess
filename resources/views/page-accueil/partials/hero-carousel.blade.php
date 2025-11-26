@@ -22,7 +22,7 @@
                         <i class="bi bi-clipboard-check"></i>
                         Enrôlement Simplifié
                     </span>
-                    <h2 class="animate-slide-up">Obtenez Votre Agrément d'Organisation ESS</h2>
+                    <h2 class="animate-slide-up">Bienvenue sur la plateforme numérique des OESS</h2>
                     <p class="animate-slide-up-delay">Inscrivez votre organisation et accédez aux avantages exclusifs de la reconnaissance officielle en Économie Sociale et Solidaire</p>
                     <div class="hero-cta animate-slide-up-delay-2">
                         <a href="#registerModal" class="btn-primary-cta" data-bs-toggle="modal" data-bs-target="#registerModal">
@@ -40,8 +40,8 @@
                             <span class="stat-label">Organisations agréées</span>
                         </div>
                         <div class="stat-item">
-                            <span class="stat-number">72h</span>
-                            <span class="stat-label">Délai moyen</span>
+                            <span class="stat-number">500+</span>
+                            <span class="stat-label">CPS créées</span>
                         </div>
                         <div class="stat-item">
                             <span class="stat-number">98%</span>
@@ -63,7 +63,7 @@
                         <i class="bi bi-stars"></i>
                         Reconnaissance Officielle
                     </span>
-                    <h2 class="animate-slide-up">Les Avantages de l'Agrément ESS</h2>
+                    <h2 class="animate-slide-up">Demandez votre agrément en toute sécurité</h2>
                     <p class="animate-slide-up-delay">Bénéficiez d'un statut reconnu, d'un accompagnement personnalisé et d'un accès privilégié aux financements dédiés</p>
                     
                     <div class="benefits-grid animate-slide-up-delay-2">
@@ -104,7 +104,7 @@
                         <i class="bi bi-rocket-takeoff"></i>
                         Processus Rapide
                     </span>
-                    <h2 class="animate-slide-up">Un Processus d'Enrôlement en 3 Étapes</h2>
+                    <h2 class="animate-slide-up">Mettez en place votre CPS</h2>
                     <p class="animate-slide-up-delay">Inscription en ligne, vérification des critères et obtention de votre agrément officiel</p>
                     
                     <div class="process-steps animate-slide-up-delay-2">
@@ -142,16 +142,16 @@
         </div>
 
         {{-- Contrôles personnalisés --}}
-        {{-- <button class="carousel-control-prev" type="button" data-bs-target="#heroCarousel" data-bs-slide="prev" aria-label="Slide précédent">
+        <button class="carousel-control-prev" type="button" data-bs-target="#heroCarousel" data-bs-slide="prev" aria-label="Slide précédent">
             <span class="carousel-control-prev-icon">
                 <i class="bi bi-chevron-left"></i>
             </span>
-        </button> --}}
-        {{-- <button class="carousel-control-next" type="button" data-bs-target="#heroCarousel" data-bs-slide="next" aria-label="Slide suivant">
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#heroCarousel" data-bs-slide="next" aria-label="Slide suivant">
             <span class="carousel-control-next-icon">
                 <i class="bi bi-chevron-right"></i>
             </span>
-        </button> --}}
+        </button>
 
         {{-- Indicateurs stylisés --}}
         <div class="carousel-indicators">

@@ -1,0 +1,646 @@
+/* ========================================
+   VARIABLES CSS POUR MAINTENANCE FACILE
+   ======================================== */
+:root {
+    --primary-color: #199543;
+    --primary-hover: #147a36;
+    --secondary-color: #667eea;
+    --success-color: #28a745;
+    --danger-color: #dc3545;
+    --gray-100: #f8f9fa;
+    --gray-200: #e9ecef;
+    --gray-600: #6c757d;
+    --gray-800: #2c3e50;
+    --shadow-sm: 0 2px 8px rgba(0,0,0,0.1);
+    --shadow-md: 0 5px 20px rgba(0,0,0,0.1);
+    --radius-sm: 8px;
+    --radius-md: 12px;
+    --radius-lg: 20px;
+    --transition: all 0.3s ease;
+}
+
+/* ========================================
+   LAYOUT OPTIMISÉ
+   ======================================== */
+.container-fluid {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.form-card {
+    background: white;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-md);
+    overflow: hidden;
+    margin-bottom: 30px;
+    max-width: 900px;
+    margin-left: auto;
+    margin-right: auto;
+    will-change: opacity, transform;
+}
+
+/* ========================================
+   EN-TÊTE MODERNE AVEC ANIMATIONS GPU
+   ======================================== */
+.form-header {
+    background: linear-gradient(135deg, #e0fef5 0%, #dbfeeb 50%, #e0ffe9 100%);
+    color: var(--gray-800);
+    padding: 50px 40px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    border-bottom: 3px solid var(--secondary-color);
+}
+
+.form-header::before,
+.form-header::after {
+    content: '';
+    position: absolute;
+    border-radius: 50%;
+    will-change: transform;
+}
+
+.form-header::before {
+    top: -100px;
+    right: -100px;
+    width: 300px;
+    height: 300px;
+    background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(147, 197, 253, 0.1));
+    animation: float 20s ease-in-out infinite;
+}
+
+.form-header::after {
+    bottom: -80px;
+    left: -80px;
+    width: 250px;
+    height: 250px;
+    background: linear-gradient(135deg, rgba(99, 102, 241, 0.08), rgba(196, 181, 253, 0.08));
+    animation: float 25s ease-in-out infinite reverse;
+}
+
+@keyframes float {
+    0%, 100% { transform: translate3d(0, 0, 0) rotate(0deg); }
+    33% { transform: translate3d(30px, -30px, 0) rotate(120deg); }
+    66% { transform: translate3d(-20px, 20px, 0) rotate(240deg); }
+}
+
+.form-header h1 {
+    font-size: clamp(24px, 5vw, 36px);
+    margin-bottom: 12px;
+    font-weight: 800;
+    position: relative;
+    z-index: 1;
+    letter-spacing: -0.5px;
+    background: linear-gradient(135deg, #2563eb 0%, #7c3aed 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.form-header h1 i {
+    margin-right: 15px;
+    font-size: 1.1em;
+    vertical-align: middle;
+    background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: bounce 2s ease-in-out infinite;
+    display: inline-block;
+}
+
+@keyframes bounce {
+    0%, 100% { transform: translateY(0) scale(1); }
+    50% { transform: translateY(-8px) scale(1.05); }
+}
+
+.form-header p {
+    color: #475569;
+    font-size: 17px;
+    position: relative;
+    z-index: 1;
+    font-weight: 500;
+    max-width: 600px;
+    margin: 0 auto;
+    line-height: 1.7;
+}
+
+/* ========================================
+   BARRE DE PROGRESSION OPTIMISÉE
+   ======================================== */
+.progress-bar-custom {
+    display: flex;
+    justify-content: space-between;
+    padding: 25px 30px;
+    background: var(--gray-100);
+    border-bottom: 2px solid var(--gray-200);
+    overflow-x: auto;
+    scrollbar-width: thin;
+}
+
+.progress-step {
+    flex: 1;
+    text-align: center;
+    position: relative;
+    min-width: 80px;
+}
+
+.progress-step::before {
+    content: '';
+    position: absolute;
+    top: 20px;
+    left: 50%;
+    width: 100%;
+    height: 2px;
+    background: var(--gray-200);
+    z-index: 0;
+}
+
+.progress-step:last-child::before {
+    display: none;
+}
+
+.step-circle {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: white;
+    border: 3px solid var(--gray-200);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 10px;
+    position: relative;
+    z-index: 1;
+    transition: var(--transition);
+    cursor: pointer;
+}
+
+.progress-step.active .step-circle {
+    background: linear-gradient(135deg, var(--secondary-color) 0%, #764ba2 100%);
+    border-color: var(--secondary-color);
+    color: white;
+    transform: scale(1.1);
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+}
+
+.progress-step.completed .step-circle {
+    background: var(--success-color);
+    border-color: var(--success-color);
+    color: white;
+}
+
+.step-label {
+    font-size: 13px;
+    color: var(--gray-600);
+    font-weight: 600;
+}
+
+.progress-step.active .step-label {
+    color: var(--secondary-color);
+}
+
+/* ========================================
+   FORMULAIRE OPTIMISÉ
+   ======================================== */
+.form-body {
+    padding: 40px 50px;
+}
+
+.form-section {
+    display: none;
+}
+
+.form-section.active {
+    display: block;
+    animation: fadeIn 0.4s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.section-title {
+    font-size: 24px;
+    color: var(--gray-800);
+    margin-bottom: 10px;
+    font-weight: 700;
+}
+
+.section-subtitle {
+    color: var(--gray-600);
+    margin-bottom: 25px;
+    font-size: 14px;
+}
+
+.subsection-title {
+    color: var(--gray-800);
+    font-size: 18px;
+    font-weight: 600;
+    margin: 30px 0 20px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #e0e6ed;
+}
+
+.subsection-title i {
+    margin-right: 10px;
+    color: var(--secondary-color);
+}
+
+/* ========================================
+   CHAMPS DE FORMULAIRE AMÉLIORÉS
+   ======================================== */
+.form-control {
+    border-radius: var(--radius-sm);
+    border: 2px solid var(--gray-200);
+    padding: 10px 15px;
+    transition: var(--transition);
+    font-size: 14px;
+}
+
+.form-control:focus {
+    border-color: var(--secondary-color);
+    box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.15);
+    outline: none;
+}
+
+.form-control:valid:not(:placeholder-shown) {
+    border-color: var(--success-color);
+}
+
+.input-group-custom {
+    position: relative;
+}
+
+.input-icon {
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--gray-600);
+    z-index: 10;
+    pointer-events: none;
+}
+
+.input-group-custom .form-control {
+    padding-left: 45px;
+}
+
+/* ========================================
+   UPLOAD DE FICHIERS MODERNE
+   ======================================== */
+.file-upload-wrapper {
+    position: relative;
+    width: 100%;
+}
+
+.file-upload-wrapper input[type="file"] {
+    position: absolute;
+    opacity: 0;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+}
+
+.file-upload-label {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 25px;
+    border: 2px dashed var(--gray-200);
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: var(--transition);
+    background: var(--gray-100);
+}
+
+.file-upload-label:hover {
+    border-color: var(--secondary-color);
+    background: #f0f4ff;
+    transform: translateY(-2px);
+}
+
+.file-upload-label i {
+    font-size: 24px;
+    color: var(--secondary-color);
+}
+
+/* ========================================
+   BOUTONS OPTIMISÉS
+   ======================================== */
+.btn-custom {
+    padding: 12px 30px;
+    border-radius: var(--radius-sm);
+    font-weight: 600;
+    transition: var(--transition);
+    border: none;
+    cursor: pointer;
+}
+
+.btn-primary-custom {
+    background: var(--primary-color);
+    color: white;
+}
+
+.btn-primary-custom:hover:not(:disabled) {
+    background: var(--primary-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(25, 149, 67, 0.3);
+}
+
+.btn-primary-custom:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.btn-outline-primary {
+    background: white;
+    border: 2px solid var(--secondary-color);
+    color: var(--secondary-color);
+    padding: 12px 30px;
+    border-radius: var(--radius-sm);
+    font-weight: 600;
+    transition: var(--transition);
+}
+
+.btn-outline-primary:hover {
+    background: var(--secondary-color);
+    color: white;
+}
+
+.btn-secondary {
+    background: var(--gray-600);
+    color: white;
+}
+
+.btn-secondary:hover:not(:disabled) {
+    background: #5a6268;
+}
+
+/* ========================================
+   RÉCAPITULATIF
+   ======================================== */
+.summary-card {
+    background: var(--gray-100);
+    padding: 20px;
+    border-radius: var(--radius-md);
+    margin-bottom: 20px;
+}
+
+.summary-card h3 {
+    color: var(--gray-800);
+    margin-bottom: 15px;
+    font-size: 18px;
+}
+
+.summary-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--gray-200);
+    gap: 10px;
+}
+
+.summary-item:last-child {
+    border-bottom: none;
+}
+
+.summary-label {
+    color: var(--gray-600);
+    font-weight: 600;
+    flex-shrink: 0;
+}
+
+.summary-value {
+    color: var(--gray-800);
+    text-align: right;
+    word-break: break-word;
+}
+
+/* ========================================
+   MESSAGE DE SUCCÈS
+   ======================================== */
+.success-message {
+    text-align: center;
+    padding: 40px 20px;
+}
+
+.success-icon {
+    font-size: 80px;
+    color: var(--success-color);
+    margin-bottom: 20px;
+    animation: scaleIn 0.5s ease;
+}
+
+@keyframes scaleIn {
+    from { transform: scale(0); }
+    to { transform: scale(1); }
+}
+
+/* ========================================
+   INDICATEUR DE SAUVEGARDE
+   ======================================== */
+#saveIndicator {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    padding: 10px 20px;
+    border-radius: var(--radius-sm);
+    font-size: 14px;
+    font-weight: 600;
+    z-index: 9999;
+    transition: var(--transition);
+    box-shadow: var(--shadow-md);
+}
+
+/* ========================================
+   MESSAGES D'ERREUR
+   ======================================== */
+.error-message {
+    color: var(--danger-color);
+    font-size: 12px;
+    margin-top: 5px;
+    animation: slideDown 0.3s ease;
+}
+
+@keyframes slideDown {
+    from { opacity: 0; transform: translateY(-5px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* ========================================
+   CHECKBOX PERSONNALISÉE
+   ======================================== */
+.checkbox-custom {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 15px;
+    border: 2px solid var(--gray-200);
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.checkbox-custom:hover {
+    border-color: var(--secondary-color);
+    background: #f0f4ff;
+}
+
+.checkbox-custom input[type="checkbox"],
+.checkbox-custom input[type="radio"] {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+}
+
+/* ========================================
+   UTILITAIRES
+   ======================================== */
+.required {
+    color: var(--danger-color);
+}
+
+.d-flex {
+    display: flex;
+}
+
+.gap-2 {
+    gap: 10px;
+}
+
+.justify-content-between {
+    justify-content: space-between;
+}
+
+.mt-4 {
+    margin-top: 1.5rem;
+}
+
+.my-4 {
+    margin-top: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+/* ========================================
+   RESPONSIVE DESIGN
+   ======================================== */
+@media (max-width: 768px) {
+    .form-card {
+        max-width: 100%;
+        margin: 0 10px;
+        border-radius: var(--radius-md);
+    }
+    
+    .form-body {
+        padding: 25px 20px;
+    }
+    
+    .form-header {
+        padding: 35px 25px;
+    }
+    
+    .progress-bar-custom {
+        padding: 20px 15px;
+    }
+    
+    .step-circle {
+        width: 35px;
+        height: 35px;
+    }
+    
+    .step-label {
+        font-size: 11px;
+    }
+}
+
+@media (max-width: 576px) {
+    .form-body {
+        padding: 20px 15px;
+    }
+    
+    .step-label {
+        display: none;
+    }
+    
+    .summary-item {
+        flex-direction: column;
+        gap: 5px;
+    }
+    
+    .summary-value {
+        text-align: left;
+    }
+}
+
+@media (min-width: 1400px) {
+    .container-fluid {
+        max-width: 1400px;
+    }
+    
+    .form-card {
+        max-width: 1000px;
+    }
+}
+
+/* ========================================
+   PERFORMANCE - RÉDUCTION DES REPAINTS
+   ======================================== */
+.form-section,
+.step-circle,
+.btn-custom,
+.file-upload-label {
+    will-change: transform, opacity;
+}
+
+/* Optimisation des animations */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+/* ========================================
+   ACCESSIBILITÉ
+   ======================================== */
+.form-control:focus,
+.btn-custom:focus,
+.checkbox-custom:focus-within {
+    outline: 3px solid rgba(102, 126, 234, 0.5);
+    outline-offset: 2px;
+}
+
+/* Mode contraste élevé */
+@media (prefers-contrast: high) {
+    .form-control {
+        border-width: 3px;
+    }
+    
+    .btn-custom {
+        border: 2px solid currentColor;
+    }
+}
+
+/* ========================================
+   PRINT STYLES
+   ======================================== */
+@media print {
+    .progress-bar-custom,
+    .btn-custom,
+    .form-header::before,
+    .form-header::after {
+        display: none;
+    }
+    
+    .form-section {
+        display: block !important;
+        page-break-inside: avoid;
+    }
+}
