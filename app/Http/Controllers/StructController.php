@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
+use App\Models\Region;
 
 class StructController extends Controller
 {
@@ -15,15 +16,17 @@ class StructController extends Controller
         $user = Auth::user();
         
         return view('struct.dashboard', compact('user'));
-        
     }
 
+    /**
+     * Affiche le formulaire d'enrôlement
+     */
     public function enrolement(): View
     {
         $user = Auth::user();
+        $regions = Region::orderBy('nom_region')->get();
         
-        return view('struct.enrolement', compact('user'));
-        
+        return view('struct.enrolement', compact('user', 'regions'));
     }
     
     /**
@@ -33,5 +36,4 @@ class StructController extends Controller
     {
         return view('struct.candidater');
     }
-    
 }

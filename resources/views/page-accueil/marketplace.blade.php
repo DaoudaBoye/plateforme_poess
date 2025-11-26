@@ -425,7 +425,7 @@
               <div class="product-price">4,500 FCFA/L</div>
             </div>
           </div>
-            <button class="btn btn-primary view-all-btn" onclick="window.location.href='{{ route('Produits - Coopérative') }}'">
+            <button class="btn btn-primary view-all-btn" onclick="window.location.href='{{ route('produits.cooperative') }}'">
   <i class="bi bi-eye me-2"></i>Voir tous les produits (12)
 </button>
 

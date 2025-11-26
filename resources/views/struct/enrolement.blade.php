@@ -35,5 +35,7 @@
 @endsection
 @push('scripts')
 <script src="{{ asset('assets/js/enrolement/form.js') }}" defer></script>
+<script src="{{ asset('assets/js/enrolement/validation_form.js') }}"></script>
+
 @endpush
 

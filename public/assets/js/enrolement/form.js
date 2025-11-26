@@ -1,7 +1,18 @@
-
+/**
+ * FORMULAIRE D'ENRÔLEMENT - MODULE PRINCIPAL
+ * Dépend de: validation.js (doit être chargé avant)
+ */
 
 (function() {
     'use strict';
+
+    // ==========================================
+    // VÉRIFICATION DES DÉPENDANCES
+    // ==========================================
+    if (typeof window.FormValidation === 'undefined') {
+        console.error('❌ Le module FormValidation n\'est pas chargé. Assurez-vous que validation.js est chargé avant form.js');
+        return;
+    }
 
     // ==========================================
     // CONFIGURATION
@@ -9,11 +20,7 @@
     const CONFIG = {
         autoSaveDelay: 3000,
         maxFileSize: 5 * 1024 * 1024,
-        allowedFileTypes: ['application/pdf', 'image/jpeg', 'image/jpg', 'image/png'],
-        validationRules: {
-            email: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-            telephone: /^(77|78|76|75|70|71|33|30)\d{7}$/
-        }
+        allowedFileTypes: ['application/pdf', 'image/jpeg', 'image/jpg', 'image/png']
     };
 
     // État global
@@ -21,12 +28,10 @@
         currentSection: 1,
         hasUnsavedChanges: false,
         autoSaveTimeout: null,
-        draftId: null,
-        validationCache: new Map()
+        draftId: null
     };
 
     // Configuration des règles d'affichage par type de structure
-   // Configuration des règles d'affichage par type de structure
     const STRUCTURE_RULES = {
         aer: {
             hiddenFields: ['ninea', 'num_rc', 'num_agrement_scoop'],
@@ -47,6 +52,7 @@
                            'ninea', 'num_rc']
         }
     };
+
     // ==========================================
     // UTILITAIRES
     // ==========================================
@@ -112,144 +118,6 @@
     }
 
     // ==========================================
-    // VALIDATION
-    // ==========================================
-    
-    /**
-     * Efface les erreurs de validation d'un champ
-     */
-    function clearFieldError(input) {
-        if (!input) return;
-        
-        input.style.borderColor = '';
-        input.removeAttribute('aria-invalid');
-        
-        const container = input.closest('.input-group-custom') || input.parentElement;
-        const errorDiv = container?.querySelector('.error-message');
-        if (errorDiv) errorDiv.remove();
-    }
-
-    function validateField(input) {
-        if (!input) return { isValid: true, errorMsg: '' };
-        
-        const cacheKey = `${input.name}-${input.value}`;
-        
-        if (state.validationCache.has(cacheKey)) {
-            return state.validationCache.get(cacheKey);
-        }
-        
-        const value = input.value.trim();
-        let isValid = true;
-        let errorMsg = '';
-        
-        if (input.required && !value) {
-            isValid = false;
-            errorMsg = 'Ce champ est obligatoire';
-        } else if (value) {
-            if (input.type === 'email' && !CONFIG.validationRules.email.test(value)) {
-                isValid = false;
-                errorMsg = 'Format email invalide';
-            } else if (input.type === 'tel' && !CONFIG.validationRules.telephone.test(value)) {
-                isValid = false;
-                errorMsg = 'Téléphone invalide. Doit commencer par 77, 78, 76, 75, 70, 71, 33 ou 30 et comporter 7 chiffres après.';
-            }
-        }
-        
-        const result = { isValid, errorMsg };
-        state.validationCache.set(cacheKey, result);
-        
-        if (isValid) {
-            clearFieldError(input);
-        } else if (errorMsg) {
-            showFieldError(input, errorMsg);
-        }
-        
-        return result;
-    }
-
-    function showFieldError(input, message) {
-        if (!input) return;
-        
-        input.style.borderColor = '#dc3545';
-        input.setAttribute('aria-invalid', 'true');
-        
-        const container = input.closest('.input-group-custom') || input.parentElement;
-        let errorDiv = container?.querySelector('.error-message');
-        
-        if (!errorDiv) {
-            errorDiv = document.createElement('div');
-            errorDiv.className = 'error-message';
-            errorDiv.setAttribute('role', 'alert');
-            errorDiv.style.cssText = 'color: #dc3545; font-size: 0.875rem; margin-top: 0.25rem;';
-            container?.appendChild(errorDiv);
-        }
-        errorDiv.textContent = message;
-    }
-
-    /**
-     * Valide une section en tenant compte des champs conditionnels
-     */
-    function validateConditionalSection(sectionNumber) {
-        const section = document.querySelector(`.form-section[data-section="${sectionNumber}"]`);
-        if (!section) return true;
-
-        // Ne valider que les champs visibles et required
-        const visibleRequiredInputs = Array.from(section.querySelectorAll('[required]')).filter(input => {
-            const formGroup = input.closest('.form-group') || input.closest('.col-md-6') || input.closest('.col-md-4');
-            return formGroup && window.getComputedStyle(formGroup).display !== 'none';
-        });
-
-        let isValid = true;
-        let firstErrorField = null;
-
-        visibleRequiredInputs.forEach(input => {
-            const result = validateField(input);
-            if (!result.isValid) {
-                isValid = false;
-                if (!firstErrorField) firstErrorField = input;
-            }
-        });
-
-        if (!isValid && firstErrorField) {
-            firstErrorField.focus();
-            firstErrorField.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        }
-
-        return isValid;
-    }
-
-    function validateSection(sectionNumber) {
-        // Pour les sections 1 et 2, utiliser la validation conditionnelle
-        if (sectionNumber === 1 || sectionNumber === 2) {
-            return validateConditionalSection(sectionNumber);
-        }
-        
-        // Pour les autres sections
-        const section = document.querySelector(`.form-section[data-section="${sectionNumber}"]`);
-        if (!section) return true;
-        
-        const inputs = section.querySelectorAll('[required]');
-        const errors = [];
-        let firstErrorField = null;
-        
-        inputs.forEach(input => {
-            const result = validateField(input);
-            if (!result.isValid) {
-                errors.push(result.errorMsg || 'Champ invalide');
-                if (!firstErrorField) firstErrorField = input;
-            }
-        });
-        
-        if (errors.length > 0 && firstErrorField) {
-            firstErrorField.focus();
-            firstErrorField.scrollIntoView({ behavior: 'smooth', block: 'center' });
-            return false;
-        }
-        
-        return true;
-    }
-
-    // ==========================================
     // GESTION DES FICHIERS
     // ==========================================
     
@@ -257,19 +125,26 @@
         document.querySelectorAll('input[type="file"]').forEach(input => {
             input.addEventListener('change', function(e) {
                 const files = Array.from(e.target.files);
+                let hasErrors = false;
                 
                 for (const file of files) {
-                    if (file.size > CONFIG.maxFileSize) {
-                        alert(`${file.name} dépasse 5 Mo`);
-                        input.value = '';
-                        return;
-                    }
+                    const validation = window.FormValidation.validateFile(
+                        file, 
+                        CONFIG.maxFileSize, 
+                        CONFIG.allowedFileTypes
+                    );
                     
-                    if (!CONFIG.allowedFileTypes.includes(file.type)) {
-                        alert(`${file.name} n'est pas au bon format`);
-                        input.value = '';
-                        return;
+                    if (!validation.isValid) {
+                        validation.errors.forEach(error => {
+                            alert(`${error.fileName}: ${error.message}`);
+                        });
+                        hasErrors = true;
                     }
+                }
+                
+                if (hasErrors) {
+                    input.value = '';
+                    return;
                 }
                 
                 updateFileLabel(input, files);
@@ -366,7 +241,13 @@
         
         const currentNum = parseInt(current.dataset.section);
         
-        if (!validateSection(currentNum)) return;
+        // Utiliser la validation du module
+        if (!window.FormValidation.validateSection(currentNum)) {
+            console.log('❌ Validation échouée pour la section', currentNum);
+            return;
+        }
+        
+        console.log('✅ Section', currentNum, 'validée avec succès');
         
         const next = document.querySelector(`.form-section[data-section="${sectionNumber}"]`);
         if (!next) return;
@@ -423,21 +304,31 @@
         const field = document.getElementById(fieldId);
         if (!field) return;
 
-        const formGroup = field.closest('.form-group') || field.closest('.col-md-6') || field.closest('.col-md-4');
+        const formGroup = field.closest('.col-md-6') || 
+                         field.closest('.col-md-4') || 
+                         field.closest('.form-group');
+        
         if (!formGroup) return;
 
         if (show) {
-            formGroup.style.display = '';
+            formGroup.style.removeProperty('display');
             formGroup.style.opacity = '0';
             formGroup.style.transform = 'translateY(-10px)';
+            formGroup.offsetHeight;
             
             requestAnimationFrame(() => {
-                formGroup.style.transition = 'all 0.3s ease';
+                formGroup.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
                 formGroup.style.opacity = '1';
                 formGroup.style.transform = 'translateY(0)';
             });
+
+            const label = formGroup.querySelector(`label[for="${fieldId}"]`);
+            if (label && label.innerHTML.includes('*')) {
+                field.setAttribute('required', 'required');
+                field.setAttribute('aria-required', 'true');
+            }
         } else {
-            formGroup.style.transition = 'all 0.3s ease';
+            formGroup.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
             formGroup.style.opacity = '0';
             formGroup.style.transform = 'translateY(-10px)';
             
@@ -446,7 +337,7 @@
                 field.value = '';
                 field.removeAttribute('required');
                 field.removeAttribute('aria-required');
-                clearFieldError(field);
+                window.FormValidation.clearFieldError(field);
             }, 300);
         }
     }
@@ -464,52 +355,59 @@
         const allConditionalFields = ['ninea', 'num_rc', 'num_agrement_scoop', 
                                       'num_recepisse_association'];
 
+        const fieldOrder = [];
+        
         allConditionalFields.forEach(fieldId => {
-            const shouldHide = rules.hiddenFields.includes(fieldId);
-            const shouldShow = !shouldHide;
-            
-            toggleFieldVisibility(fieldId, shouldShow);
-
+            const shouldShow = !rules.hiddenFields.includes(fieldId);
             const field = document.getElementById(fieldId);
-            if (field && shouldShow && rules.requiredFields.includes(fieldId)) {
-                field.setAttribute('required', 'required');
-                field.setAttribute('aria-required', 'true');
+            
+            if (field) {
+                const container = field.closest('.col-md-6') || field.closest('.col-md-4');
+                if (container && shouldShow) {
+                    fieldOrder.push(container);
+                    if (rules.requiredFields.includes(fieldId)) {
+                        field.setAttribute('required', 'required');
+                        field.setAttribute('aria-required', 'true');
+                    }
+                }
             }
         });
 
-        showStructureTypeInfo(structureType);
+        allConditionalFields.forEach(fieldId => {
+            toggleFieldVisibility(fieldId, false);
+        });
+
+        setTimeout(() => {
+            const nineaField = document.getElementById('ninea');
+            if (nineaField) {
+                const parentRow = nineaField.closest('.row');
+                
+                if (parentRow) {
+                    fieldOrder.forEach(container => {
+                        parentRow.appendChild(container);
+                    });
+                }
+            }
+
+            allConditionalFields.forEach(fieldId => {
+                const shouldShow = !rules.hiddenFields.includes(fieldId);
+                if (shouldShow) {
+                    toggleFieldVisibility(fieldId, true);
+                }
+            });
+
+            showStructureTypeInfo(structureType);
+        }, 350);
     }
 
-    /**
-     * Affiche un message informatif selon le type de structure
-     */
     function showStructureTypeInfo(structureType) {
-        const section = document.querySelector('[data-section="1"]');
-        if (!section) return;
+        const infoMessages = {
+            aer: 'Une AER (Association d\'Épargne et de Crédit Rotatif) est une structure communautaire.',
+            scoop: 'Une SCOOP (Société Coopérative) est une organisation démocratique.',
+            es: 'Une Entreprise Sociale est une structure à but lucratif avec mission sociale.'
+        };
 
-        const oldInfo = section.querySelector('.structure-type-info');
-        if (oldInfo) oldInfo.remove();
-
-        const infoMessages = {};
-
-        const info = infoMessages[structureType];
-        if (!info) return;
-
-        const infoDiv = document.createElement('div');
-        infoDiv.className = 'alert alert-info structure-type-info';
-        infoDiv.style.cssText = 'margin-top: 20px; animation: fadeIn 0.4s ease;';
-        infoDiv.innerHTML = `
-            <i class="fas ${info.icon}" aria-hidden="true"></i>
-            <div style="display: inline-block; margin-left: 10px;">
-                <strong>${info.title}</strong>
-                <p style="margin: 5px 0 0 0; font-size: 14px;">${info.text}</p>
-            </div>
-        `;
-
-        const firstSubsection = section.querySelector('.subsection-title');
-        if (firstSubsection?.parentNode) {
-            firstSubsection.parentNode.insertBefore(infoDiv, firstSubsection.nextSibling);
-        }
+        console.log('ℹ️', infoMessages[structureType] || '');
     }
 
     /**
@@ -552,17 +450,18 @@
             }
 
             elementsToToggle.forEach(el => {
-                // Ne pas masquer les boutons de navigation
-                if (el.classList && (el.classList.contains('navigation-buttons') || 
-                    el.querySelector('.navigation-buttons'))) {
+                if (el.classList && (el.classList.contains('d-flex') && 
+                    el.querySelector('button[onclick*="Section"]'))) {
                     return;
                 }
 
                 if (show) {
-                    el.style.display = '';
+                    el.style.removeProperty('display');
                     el.style.opacity = '0';
+                    el.offsetHeight;
+                    
                     requestAnimationFrame(() => {
-                        el.style.transition = 'all 0.3s ease';
+                        el.style.transition = 'opacity 0.3s ease';
                         el.style.opacity = '1';
                     });
 
@@ -575,7 +474,7 @@
                         }
                     });
                 } else {
-                    el.style.transition = 'all 0.3s ease';
+                    el.style.transition = 'opacity 0.3s ease';
                     el.style.opacity = '0';
                     
                     setTimeout(() => {
@@ -586,7 +485,7 @@
                             input.value = '';
                             input.removeAttribute('required');
                             input.removeAttribute('aria-required');
-                            clearFieldError(input);
+                            window.FormValidation.clearFieldError(input);
                         });
                     }, 300);
                 }
@@ -595,18 +494,21 @@
 
         const allRoleNames = ['president', 'directeur', 'secretaire', 'tresorier'];
         allRoleNames.forEach(roleName => {
-            toggleRoleSection(roleName, rules.leadership.includes(roleName));
+            if (!rules.leadership.includes(roleName)) {
+                toggleRoleSection(roleName, false);
+            }
         });
 
-        // S'assurer que les boutons de navigation sont toujours visibles
-        ensureNavigationButtonsVisible(section);
-
-        updateLeadershipSectionTitle(structureType);
+        setTimeout(() => {
+            rules.leadership.forEach(roleName => {
+                toggleRoleSection(roleName, true);
+            });
+            
+            ensureNavigationButtonsVisible(section);
+            updateLeadershipSectionTitle(structureType);
+        }, 350);
     }
 
-    /**
-     * S'assure que les boutons de navigation sont toujours visibles
-     */
     function ensureNavigationButtonsVisible(section) {
         if (!section) return;
 
@@ -617,7 +519,6 @@
             navButtons.style.visibility = 'visible';
         }
 
-        // Alternative : chercher les boutons directement
         const buttons = section.querySelectorAll('button[onclick*="Section"]');
         buttons.forEach(btn => {
             const btnContainer = btn.closest('.navigation-buttons') || btn.parentElement;
@@ -629,9 +530,6 @@
         });
     }
 
-    /**
-     * Met à jour le titre de la section équipe dirigeante
-     */
     function updateLeadershipSectionTitle(structureType) {
         const section = document.querySelector('[data-section="2"]');
         if (!section) return;
@@ -685,7 +583,6 @@
         radioOui.addEventListener('change', toggleUploadField);
         radioNon.addEventListener('change', toggleUploadField);
     }
-
     // ==========================================
     // RÉCAPITULATIF
     // ==========================================
@@ -809,71 +706,77 @@
         }
     }
 
-    // ==========================================
-    // CASCADING DROPDOWNS
-    // ==========================================
-    
-    function setupCascadingDropdowns() {
-        const data = {
-            regions: {
-                'dakar': ['Dakar', 'Pikine', 'Guédiawaye', 'Rufisque'],
-                'thies': ['Thiès', 'Tivaouane', 'Mbour'],
-                'saint-louis': ['Saint-Louis', 'Dagana', 'Podor'],
-                'diourbel': ['Diourbel', 'Bambey', 'Mbacké'],
-                'louga': ['Louga', 'Linguère', 'Kébémer'],
-                'kaolack': ['Kaolack', 'Nioro du Rip', 'Guinguinéo'],
-                'fatick': ['Fatick', 'Foundiougne', 'Gossas'],
-                'ziguinchor': ['Ziguinchor', 'Bignona', 'Oussouye']
-            },
-            communes: {
-                'dakar': ['Dakar-Plateau', 'Médina', 'Sicap-Liberté', 'Grand-Dakar', 'Fann-Point E-Amitié', 'Gorée', 'Yoff', 'Ouakam', 'Ngor', 'Almadies', 'Parcelles Assainies', 'Cambérène', 'Hann Bel-Air', 'Gueule Tapée-Fass-Colobane'],
-                'pikine': ['Pikine Nord', 'Pikine Ouest', 'Pikine Est', 'Dagoudane', 'Thiaroye'],
-                'guediawaye': ['Golf Sud', 'Sam Notaire', 'Ndiarème Limamoulaye', 'Médina Gounass', 'Wakhinane Nimzatt'],
-                'rufisque': ['Rufisque Nord', 'Rufisque Sud', 'Rufisque Est', 'Bambylor', 'Yène', 'Diamniadio', 'Bargny', 'Sébikotane'],
-                'thies': ['Thiès Nord', 'Thiès Sud', 'Thiès Est'],
-                'mbour': ['Mbour', 'Joal-Fadiouth', 'Saly Portudal', 'Somone'],
-                'saint-louis': ['Saint-Louis Nord', 'Saint-Louis Sud', 'Sor']
+// ==========================================
+// CASCADING DROPDOWNS
+// ==========================================
+
+function setupCascadingDropdowns() {
+    const regionSelect = document.getElementById('region');
+    const departementSelect = document.getElementById('departement');
+    const communeSelect = document.getElementById('commune');
+
+    if (regionSelect) {
+        regionSelect.addEventListener('change', function() {
+            const regionId = this.value;
+            
+            departementSelect.innerHTML = '<option value="">Chargement...</option>';
+            communeSelect.innerHTML = '<option value="">Sélectionner d\'abord un département</option>';
+            
+            if (regionId) {
+                fetch(`/api/departements/${regionId}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        departementSelect.innerHTML = '<option value="">Sélectionner...</option>';
+                        data.forEach(dept => {
+                            const option = document.createElement('option');
+                            option.value = dept.id_departement;
+                            option.textContent = dept.nom_departement;
+                            departementSelect.appendChild(option);
+                        });
+                    })
+                    .catch(error => {
+                        console.error('Erreur:', error);
+                        departementSelect.innerHTML = '<option value="">Erreur de chargement</option>';
+                    });
+            } else {
+                departementSelect.innerHTML = '<option value="">Sélectionner d\'abord une région</option>';
             }
-        };
-
-        const regionSelect = document.getElementById('region');
-        const departementSelect = document.getElementById('departement');
-        const communeSelect = document.getElementById('commune');
-
-        if (regionSelect) {
-            regionSelect.addEventListener('change', function() {
-                const region = this.value;
-                departementSelect.innerHTML = '<option value="">Sélectionner...</option>';
-                communeSelect.innerHTML = '<option value="">Sélectionner d\'abord un département</option>';
-                
-                if (region && data.regions[region]) {
-                    data.regions[region].forEach(dept => {
-                        const option = document.createElement('option');
-                        option.value = dept.toLowerCase().replace(/\s+/g, '-');
-                        option.textContent = dept;
-                        departementSelect.appendChild(option);
-                    });
-                }
-            });
-        }
-
-        if (departementSelect) {
-            departementSelect.addEventListener('change', function() {
-                const dept = this.value;
-                communeSelect.innerHTML = '<option value="">Sélectionner...</option>';
-                
-                if (dept && data.communes[dept]) {
-                    data.communes[dept].forEach(commune => {
-                        const option = document.createElement('option');
-                        option.value = commune.toLowerCase().replace(/\s+/g, '-');
-                        option.textContent = commune;
-                        communeSelect.appendChild(option);
-                    });
-                }
-            });
-        }
+        });
     }
 
+    if (departementSelect) {
+        departementSelect.addEventListener('change', function() {
+            const departementId = this.value;
+            
+            communeSelect.innerHTML = '<option value="">Chargement...</option>';
+            
+            if (departementId) {
+                fetch(`/api/communes/${departementId}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        communeSelect.innerHTML = '<option value="">Sélectionner...</option>';
+                        data.forEach(commune => {
+                            const option = document.createElement('option');
+                            option.value = commune.id_commune;
+                            option.textContent = commune.nom_commune;
+                            communeSelect.appendChild(option);
+                        });
+                    })
+                    .catch(error => {
+                        console.error('Erreur:', error);
+                        communeSelect.innerHTML = '<option value="">Erreur de chargement</option>';
+                    });
+            } else {
+                communeSelect.innerHTML = '<option value="">Sélectionner d\'abord un département</option>';
+            }
+        });
+    }
+}
+
+// Initialiser au chargement
+document.addEventListener('DOMContentLoaded', function() {
+    setupCascadingDropdowns();
+});
     // ==========================================
     // SAUVEGARDE BROUILLON
     // ==========================================

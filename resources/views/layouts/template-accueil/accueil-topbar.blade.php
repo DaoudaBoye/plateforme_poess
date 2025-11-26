@@ -22,7 +22,6 @@
       
     </div>
   </div>
-
   {{-- Section Logo et Navigation --}}
   <div class="branding d-flex align-items-center">
     <div class="container position-relative d-flex align-items-center justify-content-between">

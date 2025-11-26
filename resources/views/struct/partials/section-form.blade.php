@@ -54,7 +54,7 @@
 
                     <h3 class="subsection-title">Informations générales</h3>
                     <div class="row">
-                        <div class="col-md-6">
+                        <div class="col-md-4">
                             <div class="form-group">
                                 <label for="nom_structure">Nom de la structure <span class="required">*</span></label>
                                 <div class="input-group-custom">
@@ -63,7 +63,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-4">
                             <div class="form-group">
                                 <label for="type_structure">Type de structure <span class="required">*</span></label>
                                 <select class="form-control" id="type_structure" name="type_structure" required aria-required="true">
@@ -74,19 +74,7 @@
                                 </select>
                             </div>
                         </div>
-                    </div>
-
-                    <div class="row">
-                        {{-- <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="num_agrement">Numéro d'agrément</label>
-                                <div class="input-group-custom">
-                                    <i class="fas fa-certificate input-icon" aria-hidden="true"></i>
-                                    <input type="text" class="form-control" id="num_agrement" name="num_agrement">
-                                </div>
-                            </div>
-                        </div> --}}
-                        <div class="col-md-6">
+                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="date_creation">Date de création <span class="required">*</span></label>
                                 <div class="input-group-custom">
@@ -143,6 +131,7 @@
                             </div>
                         </div>
                     </div>
+                     
 
 
                     <h3 class="subsection-title">Contact de la structure</h3>
@@ -586,7 +575,7 @@
                     </div>
                 </div>
 
-                {{-- SECTION 3: LOCALISATION --}}
+              {{-- SECTION 3: LOCALISATION --}}
                 <div class="form-section" data-section="3">
                     <h2 class="section-title">Localisation</h2>
                     <p class="section-subtitle">Adresse et zone géographique de votre structure</p>
@@ -597,14 +586,9 @@
                                 <label for="region">Région <span class="required">*</span></label>
                                 <select class="form-control" id="region" name="region" required>
                                     <option value="">Sélectionner...</option>
-                                    <option value="dakar">Dakar</option>
-                                    <option value="thies">Thiès</option>
-                                    <option value="saint-louis">Saint-Louis</option>
-                                    <option value="diourbel">Diourbel</option>
-                                    <option value="louga">Louga</option>
-                                    <option value="kaolack">Kaolack</option>
-                                    <option value="fatick">Fatick</option>
-                                    <option value="ziguinchor">Ziguinchor</option>
+                                    @foreach($regions as $region)
+                                        <option value="{{ $region->id_region }}">{{ $region->nom_region }}</option>
+                                    @endforeach
                                 </select>
                             </div>
                         </div>
@@ -736,14 +720,6 @@
                         <small class="form-text text-muted">Formats acceptés: PDF, Excel (XLSX, XLS)</small>
                     </div>
 
-                    {{-- <div class="form-group">
-                        <label for="date_demande_agrement">Date de la demande d'agrément ESS <span class="required">*</span></label>
-                        <div class="input-group-custom">
-                            <i class="fas fa-calendar input-icon" aria-hidden="true"></i>
-                            <input type="date" class="form-control" id="date_demande_agrement" name="date_demande_agrement" required aria-required="true">
-                        </div>
-                        <small class="form-text text-muted">Date à laquelle vous avez déposé ou prévoyez de déposer votre demande d'agrément</small>
-                    </div> --}}
 
                     <div class="d-flex justify-content-between mt-4">
                         <button type="button" class="btn btn-secondary" onclick="prevSection(4)">

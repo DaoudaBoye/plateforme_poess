@@ -1,115 +1,112 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Http\Request;
+use App\Models\User;
+
 use App\Http\Controllers\AccueilController;
 use App\Http\Controllers\StructController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\EvaluatorController;
 use App\Http\Controllers\AdminController;
-use App\Models\User;
-use Illuminate\Http\Request;
+use App\Http\Controllers\LocationController;
 
 /*
 |--------------------------------------------------------------------------
-| Routes Publiques
+| ROUTES PUBLIQUES
 |--------------------------------------------------------------------------
 */
 
+// Pages publiques
 Route::controller(AccueilController::class)->group(function () {
     Route::get('/', 'accueil')->name('accueil');
     Route::get('/apropos', 'home')->name('apropos');
     Route::get('/docCandidature', 'doc')->name('docCandidature');
     Route::get('/mediatheque', 'galerie')->name('mediatheque');
     Route::get('/marketplace', 'marketplace')->name('marketplace');
-    Route::get('/Produits-Cooperative', 'ProduitCoopérative')->name('Produits - Coopérative');
-
+    Route::get('/Produits-Cooperative', 'ProduitCoopérative')->name('produits.cooperative');
 });
 
-Route::get('/download-guide', function() {
-    $file = public_path('Fiche_Description_BP2.pdf');
-    
-    if (!file_exists($file)) {
-        abort(404, 'Fichier non trouvé');
-    }
-    
-    return response()->download($file);
-})->name('download.guide');
 
 /*
 |--------------------------------------------------------------------------
-| Authentification (sans middleware)
+| AUTHENTIFICATION (PUBLIQUE)
 |--------------------------------------------------------------------------
 */
 
-Route::get('/login', [AuthController::class, 'login'])->name('login');
-Route::post('/login', [AuthController::class, 'handleLogin'])->name('handleLogin');
-Route::get('/register', [AuthController::class, 'register'])->name('register');
-Route::post('/register', [AuthController::class, 'register'])->name('register.post');
-
-
+Route::controller(AuthController::class)->group(function () {
+    Route::get('/login', 'login')->name('login');
+    Route::post('/login', 'handleLogin')->name('handleLogin');
+    Route::get('/register', 'register')->name('register');
+    Route::post('/register', 'register')->name('register.post');
+});
 
 /*
 |--------------------------------------------------------------------------
-| Routes Protégées (Authentification requise)
+| ROUTES PROTÉGÉES (AUTHENTIFICATION REQUISE)
 |--------------------------------------------------------------------------
 */
 
 Route::middleware('auth')->group(function () {
-    
-    // Vérification email
+
+    /*
+    |----------------------------------------------------------------------
+    | VÉRIFICATION EMAIL (⚠️ À sécuriser avec token signé)
+    |----------------------------------------------------------------------
+    */
     Route::get('/verify-email', function (Request $request) {
         $user = User::where('email', $request->email)->first();
-        
+
         if ($user) {
-            $user->email_verified_at = now();
-            $user->save();
-    
-            return redirect('/login')->with('success', 'Votre email a été confirmé.');
+            $user->update(['email_verified_at' => now()]);
+            return redirect()->route('login')
+                ->with('success', 'Votre email a été confirmé.');
         }
-    
-        return redirect('/register')->with('error', 'Email non trouvé. Assurez-vous que l\'email est correct.');
+
+        return redirect()->route('register')
+            ->with('error', 'Email introuvable.');
     })->name('verify.email');
-    
-    // Mise à jour du compte
-    Route::post('/account/update', [AuthController::class, 'updateAccount'])
-        ->name('account.update');
-    
-    // Déconnexion
-    Route::post('/', [AuthController::class, 'logout'])->name('logout');
-    
+
     /*
-    |--------------------------------------------------------------------------
-    | Routes Structure
-    |--------------------------------------------------------------------------
+    |----------------------------------------------------------------------
+    | GESTION DU COMPTE UTILISATEUR
+    |----------------------------------------------------------------------
     */
-    
-    Route::prefix('struct')->middleware('auth')->group(function () {
-        Route::get('/dashboard', [StructController::class, 'index'])->name('struct.dashboard');
-        Route::get('/enrolement', [StructController::class, 'enrolement'])->name('struct.enrolement');
-        Route::get('/candidater', [StructController::class, 'showLocalite'])->name('struct.candidater');
+    Route::controller(AuthController::class)->group(function () {
+        Route::post('/account/update', 'updateAccount')->name('account.update');
+        Route::post('/logout', 'logout')->name('logout');
     });
-    
+
     /*
-    |--------------------------------------------------------------------------
-    | Routes Évaluateur
-    |--------------------------------------------------------------------------
+    |----------------------------------------------------------------------
+    | API LOCALISATION (Cascading Dropdowns)
+    |----------------------------------------------------------------------
     */
-    
-    Route::prefix('evaluator')->group(function () {
-        Route::get('/evalue/index', [EvaluatorController::class, 'index'])->name('evalue.index');
-        Route::get('/listeCandidat', [EvaluatorController::class, 'showCandidatesList'])->name('listeCandidat');
+    Route::prefix('api')->name('api.')->controller(LocationController::class)->group(function () {
+        Route::get('/departements/{regionId}', 'getDepartements')->name('departements');
+        Route::get('/communes/{departementId}', 'getCommunes')->name('communes');
     });
-    
+
     /*
-    |--------------------------------------------------------------------------
-    | Routes Admin
-    |--------------------------------------------------------------------------
+    |----------------------------------------------------------------------
+    | ESPACE STRUCTURE
+    |----------------------------------------------------------------------
     */
-    
-    // Route::prefix('admin')->group(function () {
-    //     Route::get('/administrateur', [AdminController::class, 'index'])->name('administrateur');
-    //     Route::get('/listeUser', [AdminController::class, 'user'])->name('listeUser');
-    //     Route::get('/editUser', [AdminController::class, 'editer'])->name('editUser');
-    //     Route::get('/critereAdmin', [AdminController::class, 'critere'])->name('critereAdmin');
-    // });
+    Route::prefix('struct')->name('struct.')->controller(StructController::class)->group(function () {
+        Route::get('/dashboard', 'index')->name('dashboard');
+        Route::get('/enrolement', 'enrolement')->name('enrolement');
+        Route::get('/candidater', 'showLocalite')->name('candidater');
+    });
+
+    /*
+    |----------------------------------------------------------------------
+    | ESPACE ÉVALUATEUR
+    |----------------------------------------------------------------------
+    */
+    Route::prefix('evaluator')->name('evaluator.')->controller(EvaluatorController::class)->group(function () {
+        Route::get('/index', 'index')->name('index');
+        Route::get('/listeCandidat', 'showCandidatesList')->name('candidates');
+    });
+
+
 });
